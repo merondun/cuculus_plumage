@@ -39,14 +39,14 @@ for CHR in $(cat Chromosomes.list); do
 
         if [[ ${CHR} == 'chr_W' || ${CHR} == 'chr_Z' ]]; then
                 echo "SEX CHROMOSOME, CALCULATING HAPLOID METRICS"
-                input=snp/${CHR}.IF-GF-MM2-BP-ANN-HAP.vcf.gz
+                input=snp/${CHR}.IF-GF-MM2-BP-ANN-HAPMASK.vcf.gz
                 #tajima's D
                 ~/modules/vcftools/bin/vcftools --haploid --gzvcf ${input} --keep tmp/tajima_${GROUP}_${IT}.popfile --out divergence/work/${CHR}_${GROUP}_${IT}_${win}_SUB --TajimaD ${win}
                 awk -v g=${GROUP} -v w=${win} -v i=${IT} '{OFS="\t"}{print $0, g, i, w, "Subset"}' divergence/work/${CHR}_${GROUP}_${IT}_${win}_SUB*.Tajima.D > divergence/out/${CHR}_${GROUP}_${IT}_${win}_SUB.tajima
                 
                 #full sample set
                 ~/modules/vcftools/bin/vcftools --haploid --gzvcf ${input} --keep tmp/tajima_${GROUP}_${IT}_FULL.popfile --out divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL --TajimaD ${win}
-                awk -v g=${GROUP} -v w=${win} -v i=${IT} '{OFS="\t"}{print $0, g, i, w, "Subset"}' divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL*.Tajima.D > divergence/out/${CHR}_${GROUP}_${IT}_${win}_ALL.tajima
+                awk -v g=${GROUP} -v w=${win} -v i=${IT} '{OFS="\t"}{print $0, g, i, w, "All"}' divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL*.Tajima.D > divergence/out/${CHR}_${GROUP}_${IT}_${win}_ALL.tajima
 
         else
                 echo "AUTOSOME, CALCULATING DIPLOID METRICS"
@@ -57,7 +57,7 @@ for CHR in $(cat Chromosomes.list); do
                 
                 #full sample set
                 ~/modules/vcftools/bin/vcftools --gzvcf ${input} --keep tmp/tajima_${GROUP}_${IT}_FULL.popfile --out divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL --TajimaD ${win}
-                awk -v g=${GROUP} -v w=${win} -v i=${IT} '{OFS="\t"}{print $0, g, i, w, "Subset"}' divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL*.Tajima.D > divergence/out/${CHR}_${GROUP}_${IT}_${win}_ALL.tajima
+                awk -v g=${GROUP} -v w=${win} -v i=${IT} '{OFS="\t"}{print $0, g, i, w, "All"}' divergence/work/${CHR}_${GROUP}_${IT}_${win}_ALL*.Tajima.D > divergence/out/${CHR}_${GROUP}_${IT}_${win}_ALL.tajima
 
         fi 
 
