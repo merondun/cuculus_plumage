@@ -1,9 +1,10 @@
 .libPaths('~/mambaforge/envs/r/lib/R/library')
-setwd('/dss/dsslegfs01/pr53da/pr53da-dss-0021/projects/2021__Cuckoo_Resequencing/vcfs/all_samples-2022_11/plumage/toes/summaries')
+setwd('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/general')
 library(openxlsx)
 library(tidyverse)
 library(sf)
 library(ggspatial)
+library(spThin)
 library(viridis)
 library(factoextra)
 library(ggpubr)
@@ -11,7 +12,6 @@ library(forcats)
 library(RColorBrewer)
 library(gghalves)
 
-#takes in metadata, plots coverage / counts, and then makes the spatial figures from manuscript 
 mdk = read.table('../EntireMetadata.txt',header=TRUE,comment.char='',sep='\t')
 mdk = mdk %>% group_by(Species) %>% 
   mutate(Longitude = as.numeric(Longitude), Latitude = as.numeric(Latitude)) %>%
@@ -63,33 +63,30 @@ md %>%
 ####### Plot All Samples ######
 set.seed(111)
 md = read.table('../EntireMetadata.txt',header=TRUE,sep='\t',comment.char = '')
-md = md %>% mutate(IDtree = paste0(IDNumber,'_',Species,'_',Plumage),
-                   LatJit = jitter(Latitude,amount =1),
+md = md %>% mutate(LatJit = jitter(Latitude,amount =1),
                    LonJit = jitter(Longitude,amount=1))
 #if you want a custom order, add a field with it
-ord = read.table('/dss/dsslegfs01/pr53da/pr53da-dss-0021/projects/2021__Cuckoo_Resequencing/vcfs/all_samples-2022_11/plumage/toes/mltree/Chr_W_TreeNoChinaNoToesMask.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
-md = left_join(ord,md)
-md = md %>% mutate(PlumageColor = gsub("#F7F7F7",'grey60',PlumageColor))
+ord = read.table('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-SetC_ROOT.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
+md = left_join(ord ,md)
 md = md %>% arrange(desc(TreeOrder))
 
 world <- map_data("world")
 sites <- st_as_sf(md, coords = c("LonJit", "LatJit"), 
                   crs = 4326, agr = "constant") 
 
-#if you want the segments which connect point to label on top of map unhash this and the hashed parts of the plot, will also need to change latitude y extent in coord_sf 
-# #add labels
-# # Calculate the y-coordinate for the labels based on the map extent
-# y_coordinate <- max(md$Latitude) + 10
-# 
-# # Calculate the minimum and maximum x-coordinates for the labels
-# min_x <- min(md$Longitude) - 2
-# max_x <- max(md$Longitude) + 2
-# label_positions <- seq(min_x, max_x, length.out = nrow(md)) # Calculate the number of evenly spaced x-coordinates for the labels
-# 
-# # Create the new data frame with label positions and connecting line endpoints
-# label_data <- md %>% ungroup %>%
-#   mutate(Longitude_label = label_positions,
-#          Latitude_label = y_coordinate)
+#add labels
+# Calculate the y-coordinate for the labels based on the map extent
+y_coordinate <- max(md$Latitude) + 10
+
+# Calculate the minimum and maximum x-coordinates for the labels
+min_x <- min(md$Longitude) - 2
+max_x <- max(md$Longitude) + 2
+label_positions <- seq(min_x, max_x, length.out = nrow(md)) # Calculate the number of evenly spaced x-coordinates for the labels
+
+# Create the new data frame with label positions and connecting line endpoints
+label_data <- md %>% ungroup %>%
+  mutate(Longitude_label = label_positions,
+         Latitude_label = y_coordinate)
 
 #Plot with labels 
 hsp = ggplot() +
@@ -98,17 +95,17 @@ hsp = ggplot() +
           aes(fill=Plumage,shape=Species_Latin),
           size=2,show.legend = T,col='grey20',alpha=0.9) +  #add the geometry for the points, I use pch 21-25 so the points have outlines
   scale_shape_manual(values=sites$Shape,breaks=sites$Species_Latin)+ #custom shape encoded from metadata
-  scale_fill_manual(values=sites$PlumageColor,breaks=sites$Plumage)+ #custom fill encoded from metadata
-  scale_color_manual(values=sites$PlumageColor,breaks=sites$Plumage)+ #custom color encoded from metadata
-  # geom_segment(data = label_data %>% filter(Plumage == 'rufous' & Country != 'HUN'),  #only show segments for some hepatic individuals, but exclude the hungarian ones because it's too many lines
-  #             aes(x = Longitude_label, y = Latitude_label, xend = LonJit, yend = LatJit, col=Plumage), linetype = 3) + #color by plumage
-  # geom_rect(data = label_data, inherit.aes = FALSE,
-  #          aes(xmin = min(Longitude_label)-2, xmax = max(Longitude_label)+2, ymin = Latitude_label, ymax = max(md$Latitude) + 20),
-  #          fill = "white", color = NA) +  #add a white rectangle base so that the map doesn't show
-  # geom_text(data = label_data, aes(x = Longitude_label, y = Latitude_label, label = IDtree, col=Plumage), angle = 90, hjust = -.05,size=1.75) + #add the labels on top
+  scale_fill_manual(values=sites$JPlumageColor,breaks=sites$Plumage)+ #custom fill encoded from metadata
+  scale_color_manual(values=sites$JPlumageColor,breaks=sites$Plumage)+ #custom color encoded from metadata
+  geom_segment(data = label_data %>% filter(Plumage == 'rufous' & Country != 'HUN'),  #only show segments for some hepatic individuals, but exclude the hungarian ones because it's too many lines
+              aes(x = Longitude_label, y = Latitude_label, xend = LonJit, yend = LatJit, col=Plumage), linetype = 3) + #color by plumage
+  geom_rect(data = label_data, inherit.aes = FALSE,
+           aes(xmin = min(Longitude_label)-2, xmax = max(Longitude_label)+2, ymin = Latitude_label, ymax = max(md$Latitude) + 25),
+           fill = "white", color = NA) +  #add a white rectangle base so that the map doesn't show
+  geom_text(data = label_data, aes(x = Longitude_label, y = Latitude_label, label = IDtree, col=Plumage), angle = 90, hjust = -.05,size=1.75) + #add the labels on top
   xlab('')+ylab('')+
   coord_sf(xlim = c(min(md$Longitude)-5, max(md$Longitude)+5), 
-           ylim = c(min(md$Latitude)-5, max(md$Latitude)+5), expand = FALSE)+ #expand the map boundaries so that the labels show up, probably an easier way but I just add a gray rectangle in inkscape afterwards in between the labels and the map 
+           ylim = c(min(md$Latitude)-5, max(md$Latitude)+25), expand = FALSE)+ #expand the map boundaries so that the labels show up, probably an easier way but I just add a gray rectangle in inkscape afterwards in between the labels and the map 
   theme_classic()+
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1),panel.background = element_rect(fill = "aliceblue"))+ #make the ocean blue
   theme(legend.text = element_text(size = 6),legend.title = element_text(size = 6),legend.key.size = unit(0.1, 'cm'))+ 
@@ -118,7 +115,7 @@ hsp = ggplot() +
 hsp
 
 pdf('Plumage_Spatial_HalloweenDatasetB_1DEGREEJITTER.pdf',height=5,width=7)
-png('Plumage_Spatial.png',units='in',res=600,height=5,width=9)
+#png('Plumage_Spatial.png',units='in',res=600,height=5,width=9)
 hsp
 dev.off()
 
