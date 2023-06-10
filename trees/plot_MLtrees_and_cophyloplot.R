@@ -22,7 +22,7 @@ chrs = c('chr_W','chr_MT')
 #Symbology bars
 counter = 0 
 for (chr in chrs) {
-  files = list.files('.',paste0(chr, '.*WithChinaWithMicropterusMask__SetB.*contree'))
+  files = list.files('.',paste0(chr, '_WithMicropterusMask__SetC.*contree'))
   for (tree in files) {
     cat('Making tree for ',tree,'\n')
     counter = counter + 1 
@@ -31,7 +31,7 @@ for (chr in chrs) {
     iqtree3 = drop.tip(iqtree2, '327_CO_SCC_RUS_F')
     label = gsub('.min4.*','',tree)
     gg <- ggtree(iqtree3, layout = "dendrogram") %<+% md
-    gg$data = gg$data %>% mutate(Plumage = ifelse(Species == 'CP' | (Species == 'CM' & is.na(Plumage)),'OUT',Plumage),
+    gg$data = gg$data %>% mutate(Plumage = ifelse(Species == 'CP' | Species == 'CM','OUT',Plumage),
                                  PlumageColor = ifelse(Species == 'CP' | Species == 'CM','grey60',PlumageColor))
     gg$data$label = ifelse(gg$data$isTip == TRUE,paste0(gg$data$IDNumber,'_',gg$data$Species,'_',gg$data$Plumage),gg$data$label)
     #without short
@@ -67,18 +67,38 @@ p2
 ord = get_taxa_name(p1) %>% as.data.frame()
 ord = ord %>% mutate(TreeOrder = row_number())
 names(ord) = c('ID','TreeOrder')
-write.table(ord,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-SetB_ROOT.order',quote=F,sep='\t',row.names=F)
+write.table(ord,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-NoChina-SetC_ROOT.order',quote=F,sep='\t',row.names=F)
 
 #chrMT
 ord = get_taxa_name(p2) %>% as.data.frame()
 ord = ord %>% mutate(TreeOrder = row_number())
 names(ord) = c('ID','TreeOrder')
-write.table(ord,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_MT_TreeWithMIC-SetB_ROOT.order',quote=F,sep='\t',row.names=F)
+write.table(ord,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_MT_TreeWithMIC-NoChina-SetC_ROOT.order',quote=F,sep='\t',row.names=F)
 
-pdf('chr_W_WithMIC-SetB_ROOT_Halloween.pdf',height=4,width=8)
+pdf('chr_W_WithMIC-NoChina-SetC_ROOT_Halloween.pdf',height=4,width=8)
 p1
 dev.off()
 
-pdf('chr_MT_WithMIC-SetB_ROOT_Halloween.pdf',height=4,width=8)
+pdf('chr_MT_WithMIC-NoChina-SetC_ROOT_Halloween.pdf',height=4,width=8)
 p2
+dev.off()
+
+#cophyloplot - plot the trees facing each other with links 
+files = list.files('.',paste0('.*_WithMicropterusMask__SetC.*contree'))
+tree1 <- read.tree(files[2])
+tree2 <- read.tree(files[1])
+tree1$data = left_join(data.frame(ID=tree1$tip.label),md )
+tree1$data = tree1$data %>% mutate(PID = paste0(IDNumber,'_',Species,'_',Plumage))
+tree1$tip.label = tree1$data$PID
+tree2$data = left_join(data.frame(ID=tree2$tip.label),md )
+tree2$data = tree2$data %>% mutate(PID = paste0(IDNumber,'_',Species,'_',Plumage))
+tree2$tip.label = tree2$data$PID
+
+# create associations matrix 
+a <- as.character(c(tree2$tip.label))
+b <- as.character(c(tree2$tip.label)) 
+association <- cbind(a, b)
+
+pdf('Cophyloplot_chr_W-MT_WithMic-NoChina_SETC.pdf',height=10,width=20)
+cophyloplot(tree1, tree2, assoc = association,length.line = 25, space = 150, gap = 5)
 dev.off()

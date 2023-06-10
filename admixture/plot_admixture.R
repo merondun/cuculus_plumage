@@ -40,6 +40,10 @@ qdat$Kclust <- factor(qdat$Kclust, levels = paste0("K", 2:10))
 #without order
 #qdat = qdat %>% mutate(IDtree = fct_reorder(ID,desc(Plumage)))
 
+#summarize canorus and their optatus within their respective K2 clusters
+qdat %>% filter(Kclust == 'K2' & K == 'K1' & Species == 'CC') %>% summarize(mean = mean(Q),min=min(Q),max=max(Q))
+qdat %>% filter(Kclust == 'K2' & K == 'K2' & Species == 'CO') %>% summarize(mean = mean(Q),min=min(Q),max=max(Q))
+
 #Now plot
 k2plot =
   qdat %>% filter(MaxK < 6) %>%  #I only want to show K2-4
@@ -62,4 +66,5 @@ pdf('Admixture_TreeWithMIC-SetB_NoLD-K6-Facet.pdf',height=4,width=8)
 #png('Admixture_HUNGARY.png',height=2,width=7,units='in',res=600)
 k2plot
 dev.off()
+
 

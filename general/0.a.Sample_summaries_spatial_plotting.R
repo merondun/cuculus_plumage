@@ -66,8 +66,8 @@ md = read.table('../EntireMetadata.txt',header=TRUE,sep='\t',comment.char = '')
 md = md %>% mutate(LatJit = jitter(Latitude,amount =1),
                    LonJit = jitter(Longitude,amount=1))
 #if you want a custom order, add a field with it
-ord = read.table('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-SetC_ROOT.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
-md = left_join(ord ,md)
+ord = read.table('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-NoChina-SetC_ROOT.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
+md = left_join(ord ,md %>% mutate(IDtree = gsub('307_CM_grey','307_CM_OUT',IDtree)))
 md = md %>% arrange(desc(TreeOrder))
 
 world <- map_data("world")
@@ -98,10 +98,10 @@ hsp = ggplot() +
   scale_fill_manual(values=sites$JPlumageColor,breaks=sites$Plumage)+ #custom fill encoded from metadata
   scale_color_manual(values=sites$JPlumageColor,breaks=sites$Plumage)+ #custom color encoded from metadata
   geom_segment(data = label_data %>% filter(Plumage == 'rufous' & Country != 'HUN'),  #only show segments for some hepatic individuals, but exclude the hungarian ones because it's too many lines
-              aes(x = Longitude_label, y = Latitude_label, xend = LonJit, yend = LatJit, col=Plumage), linetype = 3) + #color by plumage
+               aes(x = Longitude_label, y = Latitude_label, xend = LonJit, yend = LatJit, col=Plumage), linetype = 3) + #color by plumage
   geom_rect(data = label_data, inherit.aes = FALSE,
-           aes(xmin = min(Longitude_label)-2, xmax = max(Longitude_label)+2, ymin = Latitude_label, ymax = max(md$Latitude) + 25),
-           fill = "white", color = NA) +  #add a white rectangle base so that the map doesn't show
+            aes(xmin = min(Longitude_label)-2, xmax = max(Longitude_label)+2, ymin = Latitude_label, ymax = max(md$Latitude) + 25),
+            fill = "white", color = NA) +  #add a white rectangle base so that the map doesn't show
   geom_text(data = label_data, aes(x = Longitude_label, y = Latitude_label, label = IDtree, col=Plumage), angle = 90, hjust = -.05,size=1.75) + #add the labels on top
   xlab('')+ylab('')+
   coord_sf(xlim = c(min(md$Longitude)-5, max(md$Longitude)+5), 
@@ -114,7 +114,7 @@ hsp = ggplot() +
 
 hsp
 
-pdf('Plumage_Spatial_HalloweenDatasetB_1DEGREEJITTER.pdf',height=5,width=7)
+pdf('Plumage_Spatial_HalloweenData_WithMIC-NoChina_SETC_1DEGREEJITTER.pdf',height=4,width=7)
 #png('Plumage_Spatial.png',units='in',res=600,height=5,width=9)
 hsp
 dev.off()

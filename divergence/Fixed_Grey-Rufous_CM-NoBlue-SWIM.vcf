@@ -1,0 +1,208 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##bcftoolsVersion=1.16+htslib-1.16
+##bcftoolsCommand=mpileup -Ou -I --max-depth 100 -C 50 --threads 5 -f /dss/dsslegfs01/pr53da/pr53da-dss-0021/assemblies/Cuculus.canorus/VGP.bCucCan1.pri/GCA_017976375.1_bCucCan1.pri_genomic.CHR.fa -b Females.bams -R intervals/0091.bed -a AD,ADF,ADR,DP,SP
+##reference=file:///dss/dsslegfs01/pr53da/pr53da-dss-0021/assemblies/Cuculus.canorus/VGP.bCucCan1.pri/GCA_017976375.1_bCucCan1.pri_genomic.CHR.fa
+##contig=<ID=chr_1,length=209323829>
+##contig=<ID=chr_2,length=162173298>
+##contig=<ID=scaffold_1,length=64408>
+##contig=<ID=chr_3,length=122852502>
+##contig=<ID=chr_4,length=79991235>
+##contig=<ID=chr_5,length=69231175>
+##contig=<ID=chr_6,length=43035276>
+##contig=<ID=chr_7,length=39352363>
+##contig=<ID=chr_8,length=34799447>
+##contig=<ID=chr_9,length=28160375>
+##contig=<ID=chr_10,length=23373056>
+##contig=<ID=chr_11,length=22916006>
+##contig=<ID=chr_12,length=22578743>
+##contig=<ID=chr_13,length=21767650>
+##contig=<ID=chr_14,length=20807676>
+##contig=<ID=chr_15,length=18412470>
+##contig=<ID=chr_16,length=18083484>
+##contig=<ID=chr_17,length=15626348>
+##contig=<ID=chr_18,length=13571377>
+##contig=<ID=chr_19,length=12779522>
+##contig=<ID=chr_20,length=12566544>
+##contig=<ID=chr_21,length=9296794>
+##contig=<ID=chr_22,length=9131761>
+##contig=<ID=chr_23,length=8474506>
+##contig=<ID=chr_24,length=8007972>
+##contig=<ID=chr_25,length=7729152>
+##contig=<ID=chr_26,length=7209170>
+##contig=<ID=chr_27,length=7090994>
+##contig=<ID=chr_28,length=3982923>
+##contig=<ID=chr_29,length=3644481>
+##contig=<ID=chr_30,length=1819002>
+##contig=<ID=chr_31,length=1761595>
+##contig=<ID=chr_32,length=1577804>
+##contig=<ID=chr_33,length=1484757>
+##contig=<ID=chr_34,length=1409890>
+##contig=<ID=chr_35,length=1344321>
+##contig=<ID=chr_36,length=1248072>
+##contig=<ID=chr_37,length=1235818>
+##contig=<ID=chr_38,length=1056872>
+##contig=<ID=chr_39,length=1003585>
+##contig=<ID=chr_W,length=22312972>
+##contig=<ID=chr_Z,length=78325852>
+##contig=<ID=scaffold_21,length=108175>
+##contig=<ID=scaffold_22,length=99518>
+##contig=<ID=scaffold_23,length=98199>
+##contig=<ID=scaffold_24,length=91605>
+##contig=<ID=scaffold_25,length=87937>
+##contig=<ID=scaffold_26,length=85354>
+##contig=<ID=scaffold_27,length=80318>
+##contig=<ID=scaffold_28,length=79735>
+##contig=<ID=scaffold_29,length=73757>
+##contig=<ID=scaffold_30,length=71750>
+##contig=<ID=scaffold_31,length=67215>
+##contig=<ID=scaffold_32,length=39114>
+##contig=<ID=scaffold_33,length=64993>
+##contig=<ID=scaffold_34,length=61968>
+##contig=<ID=scaffold_35,length=59730>
+##contig=<ID=scaffold_36,length=50250>
+##contig=<ID=scaffold_37,length=48453>
+##contig=<ID=scaffold_38,length=45552>
+##contig=<ID=scaffold_39,length=45440>
+##contig=<ID=scaffold_40,length=42775>
+##contig=<ID=scaffold_41,length=42404>
+##contig=<ID=scaffold_42,length=41206>
+##contig=<ID=scaffold_43,length=40599>
+##contig=<ID=scaffold_44,length=40900>
+##contig=<ID=scaffold_45,length=40369>
+##contig=<ID=scaffold_47,length=38657>
+##contig=<ID=scaffold_48,length=38204>
+##contig=<ID=scaffold_49,length=36357>
+##contig=<ID=scaffold_50,length=34833>
+##contig=<ID=scaffold_51,length=31241>
+##contig=<ID=scaffold_52,length=31032>
+##contig=<ID=scaffold_53,length=30401>
+##contig=<ID=scaffold_54,length=30726>
+##contig=<ID=scaffold_55,length=29857>
+##contig=<ID=scaffold_56,length=28406>
+##contig=<ID=scaffold_57,length=28088>
+##contig=<ID=scaffold_58,length=27093>
+##contig=<ID=scaffold_59,length=26798>
+##contig=<ID=scaffold_60,length=25978>
+##contig=<ID=scaffold_61,length=25614>
+##contig=<ID=scaffold_62,length=25135>
+##contig=<ID=scaffold_63,length=24945>
+##contig=<ID=scaffold_64,length=24846>
+##contig=<ID=scaffold_65,length=21768>
+##contig=<ID=scaffold_66,length=22031>
+##contig=<ID=scaffold_67,length=21720>
+##contig=<ID=scaffold_68,length=19702>
+##contig=<ID=scaffold_69,length=19681>
+##contig=<ID=scaffold_70,length=19099>
+##contig=<ID=scaffold_71,length=18732>
+##contig=<ID=scaffold_72,length=17617>
+##contig=<ID=scaffold_73,length=17450>
+##contig=<ID=scaffold_74,length=17451>
+##contig=<ID=scaffold_75,length=17141>
+##contig=<ID=scaffold_76,length=16300>
+##contig=<ID=scaffold_77,length=16195>
+##contig=<ID=scaffold_78,length=15823>
+##contig=<ID=scaffold_79,length=15728>
+##contig=<ID=scaffold_80,length=15117>
+##contig=<ID=scaffold_81,length=14956>
+##contig=<ID=scaffold_82,length=14925>
+##contig=<ID=scaffold_83,length=14127>
+##contig=<ID=scaffold_84,length=13624>
+##contig=<ID=scaffold_85,length=13205>
+##contig=<ID=scaffold_86,length=13086>
+##contig=<ID=scaffold_87,length=12540>
+##contig=<ID=scaffold_88,length=12339>
+##contig=<ID=scaffold_89,length=12553>
+##contig=<ID=scaffold_90,length=10775>
+##contig=<ID=scaffold_91,length=10390>
+##contig=<ID=scaffold_92,length=9823>
+##contig=<ID=scaffold_93,length=9772>
+##contig=<ID=scaffold_94,length=9305>
+##contig=<ID=scaffold_95,length=9191>
+##contig=<ID=scaffold_96,length=9306>
+##contig=<ID=scaffold_97,length=9062>
+##contig=<ID=scaffold_98,length=8776>
+##contig=<ID=scaffold_99,length=8743>
+##contig=<ID=scaffold_100,length=8084>
+##contig=<ID=scaffold_101,length=8264>
+##contig=<ID=scaffold_102,length=8168>
+##contig=<ID=scaffold_103,length=5659>
+##contig=<ID=scaffold_104,length=4968>
+##contig=<ID=scaffold_105,length=3776>
+##contig=<ID=scaffold_106,length=3342>
+##contig=<ID=scaffold_107,length=3143>
+##contig=<ID=scaffold_108,length=2338>
+##contig=<ID=scaffold_109,length=587>
+##contig=<ID=scaffold_4,length=508192>
+##contig=<ID=scaffold_46,length=40290>
+##contig=<ID=scaffold_5,length=771316>
+##contig=<ID=scaffold_6,length=295228>
+##contig=<ID=scaffold_3,length=530816>
+##contig=<ID=scaffold_7,length=335892>
+##contig=<ID=scaffold_8,length=119971>
+##contig=<ID=scaffold_9,length=393257>
+##contig=<ID=scaffold_10,length=373182>
+##contig=<ID=scaffold_11,length=353272>
+##contig=<ID=scaffold_12,length=263990>
+##contig=<ID=scaffold_13,length=245188>
+##contig=<ID=scaffold_14,length=228907>
+##contig=<ID=scaffold_15,length=136714>
+##contig=<ID=scaffold_16,length=190092>
+##contig=<ID=scaffold_17,length=175439>
+##contig=<ID=scaffold_18,length=165713>
+##contig=<ID=scaffold_19,length=162649>
+##contig=<ID=scaffold_20,length=132978>
+##contig=<ID=scaffold_2,length=1396503>
+##contig=<ID=chr_MT,length=19698>
+##ALT=<ID=*,Description="Represents allele(s) other than observed.">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL.">
+##INFO=<ID=IDV,Number=1,Type=Integer,Description="Maximum number of raw reads supporting an indel">
+##INFO=<ID=IMF,Number=1,Type=Float,Description="Maximum fraction of raw reads supporting an indel">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Raw read depth">
+##INFO=<ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)",Version="3">
+##INFO=<ID=RPBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Read Position Bias (closer to 0 is better)">
+##INFO=<ID=MQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality Bias (closer to 0 is better)">
+##INFO=<ID=BQBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Base Quality Bias (closer to 0 is better)">
+##INFO=<ID=MQSBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Mapping Quality vs Strand Bias (closer to 0 is better)">
+##INFO=<ID=NMBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Number of Mismatches within supporting reads (closer to 0 is better)">
+##INFO=<ID=SCBZ,Number=1,Type=Float,Description="Mann-Whitney U-z test of Soft-Clip Length Bias (closer to 0 is better)">
+##INFO=<ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias">
+##INFO=<ID=SGB,Number=1,Type=Float,Description="Segregation based metric.">
+##INFO=<ID=MQ0F,Number=1,Type=Float,Description="Fraction of MQ0 reads (smaller is better)">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Number of high-quality bases">
+##FORMAT=<ID=SP,Number=1,Type=Integer,Description="Phred-scaled strand bias P-value">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths (high-quality bases)">
+##FORMAT=<ID=ADF,Number=R,Type=Integer,Description="Allelic depths on the forward strand (high-quality bases)">
+##FORMAT=<ID=ADR,Number=R,Type=Integer,Description="Allelic depths on the reverse strand (high-quality bases)">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Phred-scaled Genotype Quality">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases">
+##INFO=<ID=MQ,Number=1,Type=Integer,Description="Average mapping quality">
+##bcftools_callVersion=1.16+htslib-1.16
+##bcftools_callCommand=call -a GQ --ploidy 2 --threads 5 -m -Ob -o raw/0091_W.bcf; Date=Thu Nov  3 22:24:05 2022
+##bcftools_concatVersion=1.8+htslib-1.8
+##bcftools_concatCommand=concat --threads 5 -a -r chr_W -Ou ../raw/0091_W.bcf ../raw/0100_W.bcf ../raw/0101_W.bcf; Date=Sat Mar 18 13:02:49 2023
+##bcftools_viewVersion=1.9+htslib-1.9
+##bcftools_viewCommand=view --force-samples --samples-file Samples_C-CM.list -Oz -o snp/chr_W.vcf.gz ../../merged/chr_W.vcf.gz; Date=Tue May 16 18:37:46 2023
+##bcftools_viewCommand=view --types snps --threads 10 -e 'QUAL < 20 || INFO/DP > 3008 || INFO/DP < 68 || MQ < 30 || RPBZ < -3 || RPBZ > 3' -Oz -o snp/chr_W.IF.vcf.gz snp/chr_W.vcf.gz; Date=Tue May 16 19:23:55 2023
+##bcftools_pluginVersion=1.9+htslib-1.9
+##bcftools_pluginCommand=plugin setGT -Ou -o - -- snp/chr_W.IF.vcf.gz -t q -i 'FMT/DP < 2' -n ./.; Date=Tue May 16 19:33:39 2023
+##bcftools_pluginCommand=plugin setGT -Ou -- -t b:AD<1e-5 -n ./.; Date=Tue May 16 19:33:39 2023
+##bcftools_pluginCommand=plugin setGT -Oz -o snp/chr_W.IF-GF.vcf.gz -- --target-gt q --new-gt M -i GT=="het"; Date=Tue May 16 19:33:39 2023
+##SnpEffVersion="5.1d (build 2022-04-19 15:49), by Pablo Cingolani"
+##SnpEffCmd="SnpEff  -stats vcfqc/chr_W_RAW_annotation.html bCucCan1 snp/chr_W.IF-GF.vcf.gz "
+##INFO=<ID=ANN,Number=.,Type=String,Description="Functional annotations: 'Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO'">
+##INFO=<ID=LOF,Number=.,Type=String,Description="Predicted loss of function effects for this variant. Format: 'Gene_Name | Gene_ID | Number_of_transcripts_in_gene | Percent_of_transcripts_affected'">
+##INFO=<ID=NMD,Number=.,Type=String,Description="Predicted nonsense mediated decay effects for this variant. Format: 'Gene_Name | Gene_ID | Number_of_transcripts_in_gene | Percent_of_transcripts_affected'">
+##bcftools_pluginCommand=plugin fixploidy -- snp/chr_W.IF-GF-ANN.vcf.gz -f 1; Date=Tue May 16 21:05:52 2023
+##bcftools_viewCommand=view -Oz -o snp/chr_W.IF-GF-ANN-HAP.vcf.gz; Date=Tue May 16 21:05:52 2023
+##bcftools_viewCommand=view --min-alleles 2 --max-alleles 2 -Oz -o snp/chr_W.IF-GF-ANN-HAPMASK.vcf.gz; Date=Tue May 16 21:06:21 2023
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	417_CC_GRW_HUN_F	418_CC_GRW_HUN_F	419_CC_GRW_HUN_F	420_CC_GRW_HUN_F	421_CC_GRW_HUN_F	422_CC_GRW_HUN_F	423_CC_GRW_HUN_F	424_CC_GRW_HUN_F	426_CC_GRW_HUN_F	427_CC_GRW_HUN_F	428_CC_GRW_HUN_F	429_CC_GRW_HUN_F	430_CC_GRW_HUN_F	410_CC_GRW_HUN_F	411_CC_GRW_HUN_F	412_CC_GRW_HUN_F	413_CC_GRW_HUN_F	414_CC_GRW_HUN_F	415_CC_GRW_HUN_F	416_CC_GRW_HUN_F	120_CC_UNK_ENG_F	283_CC_UNK_RUS_F	285_CC_UNK_RUS_F	286_CC_UNK_RUS_F	291_CC_UNK_RUS_F	294_CC_UNK_RUS_F	295_CC_UNK_RUS_F	304_CC_UNK_RUS_F	328_CC_SCC_RUS_F	393_CC_UNK_RUS_F	119_CC_UNK_ENG_F	301_CC_UNK_RUS_F	307_CM_BSK_RUS_F	308_CM_BSK_RUS_F	387_CP_MBW_RUS_F	311_CO_ACW_RUS_F	317_CO_SCC_RUS_F	362_CO_PLW_RUS_F	370_CO_PLW_RUS_F	376_CO_PLW_RUS_F	379_CO_PLW_RUS_F	380_CO_PLW_RUS_F	381_CO_PLW_RUS_F	310_CO_ACW_RUS_F	330_CO_SCC_RUS_F	357_CO_YBW_RUS_F	382_CO_PLW_RUS_F	400_CO_SCC_RUS_F	401_CO_SCC_RUS_F	252_CC_SRT_RUS_F	276_CC_UNK_RUS_F	277_CC_UNK_RUS_F	432_CC_UNK_IRA_F	435_CC_UNK_UKR_F	437_CC_UNK_MAC_F	438_CC_UNK_RUS_F	442_CC_UNK_RUS_F	444_CC_UNK_MON_F	431_CC_UNK_EST_F	433_CC_UNK_CHN_F	434_CC_UNK_UKR_F	436_CC_UNK_ROM_F	439_CC_UNK_RUS_F	440_CC_UNK_RUS_F	441_CC_UNK_RUS_F	443_CC_UNK_RUS_F	445_CC_UNK_TOG_F	327_CO_SCC_RUS_F
+chr_W	1475029	.	C	T	31065.3	.	DP=1501;VDB=0.984331;SGB=83.2269;RPBZ=0.0918091;MQBZ=-23.1499;MQSBZ=2.75796;BQBZ=-3.61319;NMBZ=0.387147;SCBZ=0.0312338;FS=0;MQ0F=0;AC=97;AN=132;DP4=77,137,531,639;MQ=44;ANN=T|missense_variant|MODERATE|exon-XM_054053250.1-1|GENE_exon-XM_054053250.1-1|transcript|rna-XM_054053250.1|protein_coding|12/14|c.2446G>A|p.Val816Ile|2446/3507|2446/3507|816/1168||,T|non_coding_transcript_variant|MODIFIER|LOC104058132|gene-LOC104058132|transcript|XM_054053250.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON	GT:PL:DP:SP:ADF:ADR:AD:GQ	1:123,15,0:5:0:0,0:0,5:0,5:19	1:113,9,0:3:0:0,2:0,1:0,3:13	1:129,15,0:5:0:0,0:0,5:0,5:19	1:76,6,0:2:0:0,2:0,0:0,2:10	1:97,9,0:3:0:0,0:0,3:0,3:13	1:45,6,0:2:0:0,0:0,2:0,2:10	1:130,12,0:4:0:0,1:0,3:0,4:16	1:107,9,0:3:0:0,1:0,2:0,3:13	1:131,19,7:5:0:0,1:0,3:0,4:16	1:179,15,0:5:0:0,2:0,3:0,5:19	1:167,18,0:6:0:0,4:0,2:0,6:22	1:189,21,0:7:0:0,1:0,6:0,7:25	1:143,15,0:5:0:0,1:0,4:0,5:19	0:0,33,204:11:0:1,0:10,0:11,0:22	1:0,9,105:3:0:1,0:2,0:3,0:3	0:0,12,153:4:0:3,0:1,0:4,0:3	0:0,12,130:4:0:1,0:3,0:4,0:3	1:0,6,74:2:0:1,0:1,0:2,0:5	0:0,24,188:8:0:1,0:7,0:8,0:13	0:0,27,244:10:0:2,0:7,0:9,0:16	1:105,9,0:3:0:0,1:0,2:0,3:13	1:122,12,0:4:0:0,0:0,4:0,4:16	1:135,12,0:4:0:0,2:0,2:0,4:16	1:207,21,0:7:0:0,3:0,4:0,7:25	1:181,18,0:6:0:0,3:0,3:0,6:22	1:255,30,0:10:0:0,6:0,4:0,10:34	1:129,12,0:4:0:0,2:0,2:0,4:16	1:255,48,0:16:0:0,8:0,8:0,16:52	1:255,33,0:11:0:0,4:0,7:0,11:37	1:103,9,0:3:0:0,0:0,3:0,3:13	0:0,12,135:4:0:2,0:2,0:4,0:3	1:0,9,118:3:0:1,0:2,0:3,0:3	.:30,3,0:1:0:0,1:0,0:0,1:8	1:98,9,0:3:0:0,1:0,2:0,3:13	1:193,24,0:8:0:0,2:0,6:0,8:28	1:105,9,0:3:0:0,1:0,2:0,3:13	1:152,15,0:5:0:0,2:0,3:0,5:19	1:185,18,0:6:0:0,3:0,3:0,6:22	1:76,6,0:2:0:0,0:0,2:0,2:10	1:202,21,0:7:0:0,3:0,4:0,7:25	1:169,15,0:5:0:0,3:0,2:0,5:19	1:165,18,0:6:0:0,5:0,1:0,6:22	1:135,12,0:4:0:0,2:0,2:0,4:16	0:0,33,255:11:0:3,0:8,0:11,0:22	0:0,24,207:8:0:3,0:5,0:8,0:13	0:0,21,196:7:0:1,0:6,0:7,0:10	1:0,9,92:3:0:0,0:3,0:3,0:3	1:0,9,104:3:0:2,0:1,0:3,0:3	0:0,30,255:10:0:4,0:6,0:10,0:19	1:255,36,0:12:0:0,7:0,5:0,12:40	1:104,9,0:3:0:0,2:0,1:0,3:13	1:129,15,0:5:0:0,5:0,0:0,5:19	1:81,6,0:2:0:0,2:0,0:0,2:10	1:81,6,0:2:0:0,2:0,0:0,2:10	.:0,0,0:0:0:0,0:0,0:0,0:0	.:38,3,0:1:0:0,0:0,1:0,1:8	1:222,21,0:7:0:0,5:0,2:0,7:25	1:80,6,0:2:0:0,0:0,2:0,2:10	1:0,9,125:3:0:3,0:0,0:3,0:3	1:0,6,100:2:0:1,0:1,0:2,0:5	0:0,12,178:4:0:2,0:2,0:4,0:3	.:0,3,50:1:0:0,0:1,0:1,0:8	.:0,0,0:0:0:0,0:0,0:0,0:0	1:0,6,98:2:0:1,0:1,0:2,0:5	0:0,12,175:4:0:3,0:1,0:4,0:3	.:0,3,50:1:0:0,0:1,0:1,0:8	1:0,6,100:2:0:1,0:1,0:2,0:5	1:245,27,0:9:0:0,4:0,5:0,9:31
+chr_W	1489469	.	G	A	27358.2	.	DP=1296;VDB=0.738771;SGB=79.5364;RPBZ=0.248336;MQBZ=-20.3186;MQSBZ=1.98398;BQBZ=-4.51983;NMBZ=15.7391;SCBZ=1.77291;FS=0;MQ0F=0;AC=92;AN=126;DP4=91,94,506,507;MQ=44;ANN=A|missense_variant|MODERATE|exon-XM_054053250.1-1|GENE_exon-XM_054053250.1-1|transcript|rna-XM_054053250.1|protein_coding|5/14|c.1358C>T|p.Ala453Val|1358/3507|1358/3507|453/1168||,A|non_coding_transcript_variant|MODIFIER|LOC104058132|gene-LOC104058132|transcript|XM_054053250.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON	GT:PL:DP:SP:ADF:ADR:AD:GQ	.:0,0,0:0:0:0,0:0,0:0,0:0	1:76,6,0:2:0:0,2:0,0:0,2:10	1:79,9,0:3:0:0,2:0,1:0,3:13	1:150,12,0:4:0:0,2:0,2:0,4:16	.:37,3,0:1:0:0,1:0,0:0,1:8	1:67,6,0:2:0:0,2:0,0:0,2:10	1:74,6,0:2:0:0,1:0,1:0,2:10	1:59,6,0:2:0:0,2:0,0:0,2:10	1:186,27,0:9:0:0,8:0,1:0,9:31	.:0,0,0:0:0:0,0:0,0:0,0:0	1:67,6,0:2:0:0,2:0,0:0,2:10	1:74,6,0:2:0:0,1:0,1:0,2:10	1:92,9,0:3:0:0,3:0,0:0,3:13	0:0,27,231:9:0:5,0:4,0:9,0:16	1:25,0,106:4:0:1,1:2,0:3,1:35	0:0,12,143:4:0:1,0:3,0:4,0:3	1:0,6,80:2:0:2,0:0,0:2,0:5	0:0,21,189:7:0:4,0:3,0:7,0:10	1:1,0,144:12:0:11,0:0,1:11,1:11	1:0,9,92:3:0:3,0:0,0:3,0:3	1:94,9,0:3:0:0,3:0,0:0,3:13	1:144,15,0:5:0:0,4:0,1:0,5:19	1:236,27,0:9:0:0,3:0,6:0,9:31	1:161,15,0:5:0:0,2:0,3:0,5:19	1:255,33,0:11:0:0,3:0,8:0,11:37	1:201,21,0:7:0:0,4:0,3:0,7:25	1:225,27,0:9:0:0,6:0,3:0,9:31	1:135,12,0:4:0:0,2:0,2:0,4:16	1:118,15,0:5:0:0,4:0,1:0,5:19	.:37,3,0:1:0:0,1:0,0:0,1:8	0:0,21,206:7:0:3,0:4,0:7,0:10	0:0,18,179:6:0:2,0:4,0:6,0:8	1:106,9,0:3:0:0,2:0,1:0,3:13	1:177,15,0:5:0:0,3:0,2:0,5:19	1:135,12,0:4:0:0,2:0,2:0,4:16	1:105,9,0:3:0:0,1:0,2:0,3:13	1:104,9,0:3:0:0,2:0,1:0,3:13	1:124,12,0:4:0:0,2:0,2:0,4:16	1:104,9,0:3:0:0,2:0,1:0,3:13	1:193,21,0:7:0:0,4:0,3:0,7:25	1:104,9,0:3:0:0,2:0,1:0,3:13	1:200,21,0:7:0:0,2:0,5:0,7:25	1:74,6,0:2:0:0,1:0,1:0,2:10	0:0,18,176:6:0:3,0:3,0:6,0:8	0:0,18,182:6:0:2,0:4,0:6,0:8	0:0,15,160:5:0:3,0:2,0:5,0:5	.:0,3,37:1:0:1,0:0,0:1,0:8	0:0,18,172:6:0:1,0:5,0:6,0:8	1:0,6,87:2:0:1,0:1,0:2,0:5	1:188,24,0:8:0:0,7:0,1:0,8:28	1:152,18,0:6:0:0,0:0,6:0,6:22	1:255,33,0:11:0:0,4:0,7:0,11:37	1:121,9,0:3:0:0,1:0,2:0,3:13	.:0,0,0:0:0:0,0:0,0:0,0:0	.:46,3,0:1:0:0,1:0,0:0,1:8	1:74,6,0:2:0:0,1:0,1:0,2:10	.:0,0,0:0:0:0,0:0,0:0,0:0	.:45,3,0:1:0:0,0:0,1:0,1:8	1:0,6,91:2:0:0,0:2,0:2,0:5	1:0,6,91:2:0:2,0:0,0:2,0:5	0:0,12,162:4:0:1,0:3,0:4,0:3	1:0,6,86:2:0:0,0:2,0:2,0:5	.:0,0,0:0:0:0,0:0,0:0,0:0	1:0,9,141:3:0:2,0:1,0:3,0:3	.:0,3,50:1:0:1,0:0,0:1,0:8	0:0,15,213:5:0:2,0:3,0:5,0:5	1:0,9,142:3:0:1,0:2,0:3,0:3	1:166,18,0:6:0:0,4:0,2:0,6:22
+chr_W	2336260	.	G	A	16919.5	.	DP=1563;VDB=0.385717;SGB=304.752;RPBZ=-0.697232;MQBZ=-16.9425;MQSBZ=-1.39006;BQBZ=-6.2444;NMBZ=0.292686;SCBZ=-0.140068;FS=0;MQ0F=0;AC=74;AN=128;DP4=417,344,333,330;MQ=45;ANN=A|missense_variant|MODERATE|exon-XM_054053322.1-1|GENE_exon-XM_054053322.1-1|transcript|rna-XM_054053322.1|protein_coding|1/2|c.602C>T|p.Ala201Val|602/2022|602/2022|201/673||WARNING_TRANSCRIPT_MULTIPLE_STOP_CODONS,A|non_coding_transcript_variant|MODIFIER|LOC128850295|gene-LOC128850295|transcript|XM_054053322.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON	GT:PL:DP:SP:ADF:ADR:AD:GQ	1:143,18,0:6:0:0,0:0,6:0,6:15	1:74,6,0:2:0:0,1:0,1:0,2:4	1:255,36,0:12:0:0,8:0,4:0,12:33	1:67,6,0:2:0:0,2:0,0:0,2:4	.:0,0,0:0:0:0,0:0,0:0,0:0	1:106,9,0:3:0:0,3:0,0:0,3:7	1:187,21,0:7:0:0,4:0,3:0,7:18	1:173,18,0:6:0:0,2:0,4:0,6:15	1:203,24,0:8:0:0,5:0,3:0,8:21	1:82,9,0:3:0:0,1:0,2:0,3:7	1:160,15,0:5:0:0,3:0,2:0,5:12	1:198,21,0:7:0:0,3:0,4:0,7:18	1:125,15,0:5:0:0,1:0,4:0,5:12	0:0,27,255:9:0:7,0:2,0:9,0:23	.:0,3,37:1:0:0,0:1,0:1,0:3	0:0,24,238:8:0:4,0:4,0:8,0:20	0:0,9,104:3:0:2,0:1,0:3,0:6	0:0,21,167:7:0:6,0:1,0:7,0:17	0:0,30,252:10:0:7,0:3,0:10,0:26	0:0,21,179:7:0:2,0:5,0:7,0:17	1:179,21,0:7:0:0,1:0,6:0,7:18	1:198,21,0:7:0:0,3:0,4:0,7:18	1:255,30,0:10:0:0,6:0,4:0,10:27	1:67,6,0:2:0:0,1:0,1:0,2:4	1:235,27,0:9:0:0,5:0,4:0,9:24	1:208,21,0:7:0:0,3:0,4:0,7:18	1:74,6,0:2:0:0,1:0,1:0,2:4	1:149,15,0:5:0:0,4:0,1:0,5:12	1:182,18,0:6:0:0,2:0,4:0,6:15	1:210,18,0:6:0:0,3:0,3:0,6:15	0:0,21,207:7:0:3,0:4,0:7,0:17	0:0,6,74:2:0:1,0:1,0:2,0:4	0:0,18,186:6:0:5,0:1,0:6,0:15	.:0,3,37:1:0:0,0:1,0:1,0:3	.:0,0,0:0:0:0,0:0,0:0,0:0	1:129,12,0:4:0:0,3:0,1:0,4:9	1:129,12,0:4:0:0,1:0,3:0,4:9	1:74,6,0:2:0:0,1:0,1:0,2:4	1:245,27,0:9:0:0,3:0,6:0,9:24	1:113,12,0:4:0:0,4:0,0:0,4:9	1:149,15,0:5:0:0,4:0,1:0,5:12	1:149,15,0:5:0:0,4:0,1:0,5:12	1:203,21,0:7:0:0,5:0,2:0,7:18	0:0,39,255:13:0:9,0:4,0:13,0:35	0:0,21,207:7:0:3,0:4,0:7,0:17	0:0,27,243:9:0:5,0:4,0:9,0:23	0:0,15,149:5:0:4,0:1,0:5,0:12	0:0,21,195:7:0:5,0:2,0:7,0:17	0:0,15,169:5:0:2,0:3,0:5,0:12	0:0,12,135:4:0:2,0:2,0:4,0:9	0:0,15,144:5:0:3,0:2,0:5,0:12	0:0,27,235:9:0:5,0:4,0:9,0:23	1:111,9,0:3:0:0,3:0,0:0,3:7	1:81,6,0:2:0:0,2:0,0:0,2:4	1:82,6,0:2:0:0,1:0,1:0,2:4	.:0,0,0:0:0:0,0:0,0:0,0:0	.:0,0,0:0:0:0,0:0,0:0,0:0	1:90,9,0:3:0:0,3:0,0:0,3:7	0:0,15,216:5:0:3,0:2,0:5,0:12	0:0,12,150:4:0:4,0:0,0:4,0:9	0:0,15,202:5:0:4,0:1,0:5,0:12	.:0,3,44:1:0:0,0:1,0:1,0:3	0:0,6,94:2:0:1,0:1,0:2,0:4	0:0,6,100:2:0:1,0:1,0:2,0:4	0:0,6,53:2:0:2,0:0,0:2,0:4	.:0,3,50:1:0:0,0:1,0:1,0:3	0:0,6,93:2:0:1,0:1,0:2,0:4	1:238,27,0:9:0:0,4:0,5:0,9:24
+chr_W	15623355	.	C	G	17371.1	.	DP=1503;VDB=0.217177;SGB=310.988;RPBZ=-2.6878;MQBZ=-20.1663;MQSBZ=2.08771;BQBZ=-1.7397;NMBZ=-5.88695;SCBZ=0;FS=0;MQ0F=0.00199601;AC=75;AN=134;DP4=340,353,356,334;MQ=46;ANN=G|missense_variant|MODERATE|exon-XM_054053224.1-1|GENE_exon-XM_054053224.1-1|transcript|rna-XM_054053224.1|protein_coding|1/5|c.160C>G|p.Leu54Val|160/1134|160/1134|54/377||,G|non_coding_transcript_variant|MODIFIER|LOC128850231|gene-LOC128850231|transcript|XM_054053224.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON	GT:PL:DP:SP:ADF:ADR:AD:GQ	.:37,3,0:1:0:0,0:0,1:0,1:3	1:92,9,0:3:0:0,3:0,0:0,3:7	1:185,18,0:6:0:0,3:0,3:0,6:15	1:196,21,0:7:0:0,4:0,3:0,7:18	.:37,3,0:1:0:0,0:0,1:0,1:3	1:153,12,0:4:0:0,2:0,2:0,4:9	1:224,24,0:8:0:0,3:0,5:0,8:21	1:94,9,0:3:0:0,1:0,2:0,3:7	1:160,15,0:5:0:0,3:0,2:0,5:12	1:133,15,0:5:0:0,4:0,1:0,5:12	1:205,21,0:7:0:0,4:0,3:0,7:18	1:245,27,0:9:0:0,4:0,5:0,9:24	1:202,24,0:9:0:0,5:0,3:0,8:21	0:0,12,129:4:0:1,0:3,0:4,0:9	0:0,9,118:3:0:1,0:2,0:3,0:6	0:0,30,253:10:0:3,0:7,0:10,0:26	0:0,18,176:7:0:4,0:2,0:6,0:14	0:0,15,162:5:0:1,0:4,0:5,0:11	0:0,21,180:7:0:4,0:3,0:7,0:17	0:0,36,254:12:0:5,0:7,0:12,0:32	1:118,12,0:4:0:0,1:0,3:0,4:9	1:104,9,0:3:0:0,2:0,1:0,3:7	1:185,18,0:6:0:0,3:0,3:0,6:15	1:255,33,0:11:0:0,5:0,6:0,11:30	1:224,24,0:8:0:0,2:0,6:0,8:21	1:207,21,0:7:0:0,3:0,4:0,7:18	1:255,33,0:11:0:0,4:0,7:0,11:30	1:67,6,0:2:0:0,2:0,0:0,2:4	1:224,24,0:8:0:0,2:0,6:0,8:21	.:0,0,0:0:0:0,0:0,0:0,0:0	0:0,15,161:5:0:2,0:3,0:5,0:11	0:0,9,120:3:0:2,0:1,0:3,0:6	0:0,6,78:2:0:2,0:0,0:2,0:4	0:0,15,175:5:0:4,0:1,0:5,0:11	0:0,9,61:3:0:1,0:2,0:3,0:6	1:179,18,0:6:0:0,4:0,2:0,6:15	1:130,12,0:4:0:0,1:0,3:0,4:9	1:198,21,0:7:0:0,4:0,3:0,7:18	1:244,24,0:8:0:0,4:0,4:0,8:21	1:164,18,0:6:0:0,4:0,2:0,6:15	1:192,21,0:7:0:0,2:0,5:0,7:18	1:190,34,19:6:0:0,3:0,2:0,5:12	1:105,9,0:3:0:0,1:0,2:0,3:7	0:0,15,160:5:0:3,0:2,0:5,0:11	0:0,18,182:6:0:2,0:4,0:6,0:14	0:0,18,182:6:0:2,0:4,0:6,0:14	0:0,30,253:10:0:4,0:6,0:10,0:26	0:0,12,135:4:0:2,0:2,0:4,0:9	0:0,12,153:4:0:1,0:3,0:4,0:9	0:0,12,130:4:0:1,0:3,0:4,0:9	0:0,9,104:3:0:2,0:1,0:3,0:6	0:0,24,226:8:0:3,0:5,0:8,0:20	.:33,3,0:1:0:0,0:0,1:0,1:3	.:44,3,0:1:0:0,0:0,1:0,1:3	1:126,12,0:4:0:0,2:0,2:0,4:9	1:97,9,0:3:0:0,1:0,2:0,3:7	1:36,6,0:2:0:0,2:0,0:0,2:4	1:163,10,0:6:0:1,2:0,3:1,5:8	0:0,9,130:3:0:2,0:1,0:3,0:6	0:0,9,118:3:0:2,0:1,0:3,0:6	0:0,9,135:3:0:1,0:2,0:3,0:6	0:0,6,91:2:0:0,0:2,0:2,0:4	.:0,3,46:1:0:1,0:0,0:1,0:3	0:0,6,86:2:0:0,0:2,0:2,0:4	0:0,12,141:4:0:3,0:1,0:4,0:9	0:0,6,91:2:0:0,0:2,0:2,0:4	0:0,6,91:2:0:2,0:0,0:2,0:4	.:37,3,0:1:0:0,0:0,1:0,1:3
+chr_W	19948700	.	A	G	17290.2	.	DP=1536;VDB=0.889983;SGB=283.431;RPBZ=-2.80654;MQBZ=-33.5385;MQSBZ=-0.0379076;BQBZ=-2.54241;NMBZ=0.117005;SCBZ=0;FS=0;MQ0F=0;AC=80;AN=136;DP4=401,365,336,325;MQ=47;ANN=G|missense_variant|MODERATE|exon-XM_054053342.1-1|GENE_exon-XM_054053342.1-1|transcript|rna-XM_054053342.1|protein_coding|9/12|c.1340T>C|p.Met447Thr|1340/1776|1340/1773|447/590||,G|missense_variant|MODERATE|exon-XM_054053343.1-1|GENE_exon-XM_054053343.1-1|transcript|rna-XM_054053343.1|protein_coding|8/11|c.1331T>C|p.Met444Thr|1340/1776|1331/1764|444/587||,G|non_coding_transcript_variant|MODIFIER|LOC104063568|gene-LOC104063568|transcript|XM_054053342.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON,G|non_coding_transcript_variant|MODIFIER|LOC104063568|gene-LOC104063568|transcript|XM_054053343.1|protein_coding||||||||WARNING_TRANSCRIPT_NO_START_CODON	GT:PL:DP:SP:ADF:ADR:AD:GQ	1:76,6,0:2:0:0,0:0,2:0,2:4	1:137,12,0:4:0:0,3:0,1:0,4:9	1:132,12,0:4:0:0,1:0,3:0,4:9	1:105,9,0:3:0:0,1:0,2:0,3:7	1:113,9,0:3:0:0,2:0,1:0,3:7	.:37,3,0:1:0:0,1:0,0:0,1:3	1:132,12,0:5:0:0,3:0,1:0,4:9	1:133,15,0:5:0:0,4:0,1:0,5:12	1:149,15,0:5:0:0,4:0,1:0,5:12	1:105,12,0:4:0:0,3:0,1:0,4:9	1:130,12,0:4:0:0,1:0,3:0,4:9	1:204,30,0:10:0:0,9:0,1:0,10:27	1:130,12,0:4:0:0,1:0,3:0,4:9	0:0,24,227:8:0:6,0:2,0:8,0:20	0:0,6,67:2:0:2,0:0,0:2,0:4	0:0,21,202:7:0:3,0:4,0:7,0:17	0:0,9,104:3:0:2,0:1,0:3,0:6	0:0,21,219:7:0:5,0:2,0:7,0:17	0:0,24,184:8:0:7,0:1,0:8,0:20	0:0,36,255:12:0:6,0:6,0:12,0:32	1:182,18,0:6:0:0,2:0,4:0,6:15	1:92,9,0:3:0:0,3:0,0:0,3:7	1:135,12,0:4:0:0,2:0,2:0,4:9	1:204,27,0:9:0:0,8:0,1:0,9:24	1:183,21,0:7:0:0,1:0,6:0,7:18	1:255,36,0:12:0:0,6:0,6:0,12:33	1:222,27,0:9:0:0,2:0,7:0,9:24	1:185,18,0:6:0:0,3:0,3:0,6:15	1:198,21,0:7:0:0,3:0,4:0,7:18	1:113,9,0:3:0:0,2:0,1:0,3:7	0:0,24,184:8:0:7,0:1,0:8,0:20	0:0,6,67:2:0:0,0:2,0:2,0:4	0:0,9,103:3:0:1,0:2,0:3,0:6	0:0,21,219:7:0:5,0:2,0:7,0:17	0:0,30,227:10:0:2,0:8,0:10,0:26	.:37,3,0:1:0:0,0:0,1:0,1:3	1:129,15,0:5:0:0,0:0,5:0,5:12	1:149,15,0:5:0:0,4:0,1:0,5:12	1:135,12,0:4:0:0,2:0,2:0,4:9	1:144,12,0:4:0:0,2:0,2:0,4:9	1:182,18,0:6:0:0,2:0,4:0,6:15	1:202,21,0:7:0:0,5:0,2:0,7:18	1:131,12,0:4:0:0,3:0,1:0,4:9	0:0,12,106:4:0:0,0:4,0:4,0:9	0:0,9,92:3:0:0,0:3,0:3,0:6	0:0,27,237:9:0:5,0:4,0:9,0:23	0:0,6,67:2:0:2,0:0,0:2,0:4	0:0,15,185:5:0:2,0:3,0:5,0:12	0:0,6,67:2:0:0,0:2,0:2,0:4	0:0,21,186:7:0:4,0:3,0:7,0:17	0:0,18,172:6:0:4,0:2,0:6,0:14	0:0,21,200:7:0:2,0:5,0:7,0:17	1:83,6,0:2:0:0,0:0,2:0,2:4	1:86,6,0:2:0:0,1:0,1:0,2:4	1:83,6,0:2:0:0,2:0,0:0,2:4	1:77,6,0:2:0:0,2:0,0:0,2:4	1:103,9,0:3:0:0,0:0,3:0,3:7	1:79,6,0:2:0:0,2:0,0:0,2:4	.:0,3,45:1:0:0,0:1,0:1,0:3	0:0,9,137:3:0:2,0:1,0:3,0:6	0:0,6,91:2:0:2,0:0,0:2,0:4	0:0,6,86:2:0:2,0:0,0:2,0:4	0:0,6,87:2:0:1,0:1,0:2,0:4	0:0,12,161:4:0:1,0:3,0:4,0:9	.:0,3,50:1:0:0,0:1,0:1,0:3	.:0,3,50:1:0:1,0:0,0:1,0:3	.:0,3,38:1:0:1,0:0,0:1,0:3	1:208,24,0:8:0:0,4:0,4:0,8:21
