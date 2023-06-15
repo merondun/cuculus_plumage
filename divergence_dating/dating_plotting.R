@@ -17,17 +17,17 @@ fst %>% head
 
 ### First, calculate average pi / dxy by chromosome, and then calculate average Da by chromosome 
 dac = fst %>% group_by(chr,Group,chrnum,Iteration,Mask) %>% summarize(piA = mean(piA,na.rm=TRUE),
-                                                       piB = mean(piB,na.rm=TRUE),
-                                                       dxy = mean(dxy,na.rm=TRUE),
-                                                       Fst = mean(Fst,na.rm=TRUE),
-                                                       Da = dxy - ((piA+piB)/2),
-                                                       Da = ifelse(Da < 0 , 0, Da)) #with undiverged clades sometimes Da negative, change to 0
+                                                                      piB = mean(piB,na.rm=TRUE),
+                                                                      dxy = mean(dxy,na.rm=TRUE),
+                                                                      Fst = mean(Fst,na.rm=TRUE),
+                                                                      Da = dxy - ((piA+piB)/2),
+                                                                      Da = ifelse(Da < 0 , 0, Da)) #with undiverged clades sometimes Da negative, change to 0
 
 #if W, divide mu by 2, if Z divide by 3/4, if autosome leave alone 
 da = dac %>% group_by(chr,Group,chrnum,Iteration,Mask) %>% 
-  mutate(time = ifelse(chr == 'W', Da / (2*1.41e-09*(1/2)),
-                       ifelse(chr == 'Z', Da / (2*1.41e-09),
-                              Da / (2*1.41e-09))))
+  mutate(time = ifelse(chr == 'W', Da / (2*9.08e-09*(1/2)),
+                       ifelse(chr == 'Z', Da / (2*9.08e-09),
+                              Da / (2*9.08e-09))))
 #add some aesthetic changes 
 da = da %>% mutate(AvZ = ifelse(chr == 'W','W',ifelse(chr=='Z','Z','Autosome')),
                    Shape = ifelse(Group == 'OG_CP' | Group == 'CP_CG','Outgroup',
@@ -45,13 +45,13 @@ chrplot = dak %>% ungroup %>%
   geom_jitter(width = 0.25)+
   scale_shape_manual(values=c(6,3))+
   scale_size_manual(values=c(3,1))+
-  xlab('Time')+ylab('')+
+  xlab('Generations')+ylab('')+
   scale_fill_viridis(discrete=TRUE)+
   scale_color_viridis(discrete=TRUE)+
-  scale_x_continuous(limits = c(0,7.5e5),breaks = c(100000, 250000, 500000, 650000),
-                     labels = c("100K", "250K", "500K", "650K")) +
+  scale_x_continuous(breaks = c(0,25000,50000,75000,100000),
+                     labels = c('0','25K','50K','75K','100K')) +
   theme_bw()
-pdf('../Time_Estimates_Sensitivity.pdf',height=6,width=6)
+pdf('../Time_Estimates_Sensitivity_2023JUNE12.pdf',height=6,width=6)
 chrplot
 dev.off()
 
@@ -72,7 +72,7 @@ bootdat = fst %>% filter(Window == 50000) %>% mutate(Iteration = ifelse(Mask == 
 bootres = NULL
 for (it in unique(bootdat$Iteration)){
   cat('Working on iteration: ',it,'\n')
-
+  
   bd = bootdat %>% filter(Iteration == it)
   # Apply bootstrapping for each 'chr' and store the results in a list
   bootstrapped_results <- bd %>% 
@@ -96,6 +96,8 @@ for (it in unique(bootdat$Iteration)){
 }
 
 #keep only sensible comparisons 
+write.table(bootres,file='Bootstrapped_Da.txt',quote=F,sep='\t',row.names=F)
+bootres = read.table('Bootstrapped_Da.txt',header=TRUE)
 bdak = bootres
 bdak$Group = factor(bdak$Group,levels=c('HG_HH','CG_CH','OG_OH','CG_OG','CH_OH'))
 bdak = bdak %>% drop_na(Group) %>% ungroup
@@ -103,34 +105,38 @@ bdak = bdak %>%
   mutate(Da = ifelse(Da < 0 , 0, Da), #set Da and upper and lower to 0 if Da is les than 0 
          Da_lower = ifelse(Da_lower < 0 , 0, Da_lower),
          Da_upper = ifelse(Da_upper < 0 , 0, Da_upper),
-         time = ifelse(AvZ == 'W', Da / (2*1.41e-09*(1/2)),
-                       ifelse(AvZ == 'Z', Da / (2*1.41e-09),
-                              Da / (2*1.41e-09))),
-         time_lower = ifelse(AvZ == 'W', Da_lower /(2*1.41e-09*(1/2)),
-                             ifelse(AvZ == 'Z', Da_lower / (2*1.41e-09),
-                                    Da_lower / (2*1.41e-09))),
-         time_upper = ifelse(AvZ == 'W', Da_upper /(2*1.41e-09*(1/2)),
-                             ifelse(AvZ == 'Z', Da_upper / (2*1.41e-09),
-                                    Da_upper / (2*1.41e-09))))
+         time = ifelse(AvZ == 'W', Da / (2*9.08e-09*(1/2)),
+                       ifelse(AvZ == 'Z', Da / (2*9.08e-09),
+                              Da / (2*9.08e-09))),
+         time_lower = ifelse(AvZ == 'W', Da_lower /(2*9.08e-09*(1/2)),
+                             ifelse(AvZ == 'Z', Da_lower / (2*9.08e-09),
+                                    Da_lower / (2*9.08e-09))),
+         time_upper = ifelse(AvZ == 'W', Da_upper /(2*9.08e-09*(1/2)),
+                             ifelse(AvZ == 'Z', Da_upper / (2*9.08e-09),
+                                    Da_upper / (2*9.08e-09))))
 bdak$AvZ = factor(bdak$AvZ,levels=c('Autosome','Z','W'))
-bdak = bdak %>% mutate(Mask = ifelse(Iteration == 0,'All','Subset'))
+bdak = bdak %>% mutate(Mask = ifelse(Iteration == 0,'All','Subset'),
+                       Facet = ifelse(Group == 'HG_HH' | Group == 'CG_CH' | Group == 'OG_OH','Plumage Comparison','Species Comparison'))
 #plot 
-dtimes = ggplot(bdak, aes(x = AvZ, y = time,fill=Group)) +
-  geom_jitter(aes(col=Group,shape=Mask), position = position_nudge(x=0.25), alpha = .6) +
-  stat_halfeye(adjust = .5,width = .25,.width = 0,justification = -1.5, point_colour = NA,alpha = 0.5,normalize='groups')+
-  geom_boxplot(width = .3,outlier.shape = NA, alpha = 0.3) +
+dtimes = ggplot(bdak, aes(x = AvZ, y = time,fill=Group,col=Group)) +
+  #geom_boxplot(width = .5, alpha = 0.3) +
+  geom_point(data = bdak %>% filter(Mask == 'All'),aes(col=Group),stroke=1,shape=4,size=3,position=position_dodge(width=0.5)) +
+  geom_errorbar(data = bdak %>% filter(Mask == 'All'),aes(col=Group,ymin=time_lower,ymax=time_upper),size=1,width=0.5,position=position_dodge(width=0.5)) +
+  #stat_halfeye(adjust = .5,width = .25,.width = 0,justification = -1.25, point_colour = NA,alpha = 0.8,normalize='groups')+
   labs(x = "",
-       y = "Time (Years: bootsrapped mean across all subsampled datasets)") +
-  theme_bw() +
-  scale_y_continuous(limits = c(0,7e5),breaks = c(100000, 250000, 500000, 700000),
-                     labels = c("100K", "250K", "500K", "650K")) +
-  scale_shape_manual(values=c(6,3))+
+       y = "Time (Generations) \nbootstrapped mean with subsampling") +
+  theme_bw(base_size=14) +
+  scale_y_continuous(
+    limits = c(0,10e4),
+    breaks = c(0,2.5e4,5e4,7.5e4,10e4),
+    labels = c('0','25K','50K','75K','100K')) +
+  scale_shape_manual(values=c(8,3))+
+  facet_grid(.~Facet,)+
   scale_fill_viridis(discrete=TRUE) + 
   scale_color_viridis(discrete=TRUE) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-  coord_flip()
+  theme(legend.position='top')
 
-pdf('../Divergence_Times.pdf',height=6,width=10)
+pdf('../Divergence_Times-Simple_2023JUNE12.pdf',height=5,width=7)
 dtimes
 dev.off()
 
@@ -145,28 +151,27 @@ dak = dak %>% drop_na(Group) %>% ungroup
 dak = dak %>% 
   mutate(Da = dxy - ((piA + piB) / 2),
          Da = ifelse(Da < 0 , 0, Da),
-         time = ifelse(chr == 'W', Da / (2*1.41e-09*(1/2)),
-                       ifelse(chr == 'Z', Da / (2*1.41e-09),
-                              Da / (2*1.41e-09))))
+         time = ifelse(chr == 'W', Da / (2*9.08e-09*(1/2)),
+                       ifelse(chr == 'Z', Da / (2*9.08e-09),
+                              Da / (2*9.08e-09))))
 dak$AvZ = factor(dak$AvZ,levels=c('Autosome','Z','W'))
+write.table(bdak,file='../Da_Estimates_Generations_Results_2023JUNE12.txt',quote=F,sep='\t',row.names=F)
 
 #plot window boxplot and density time estimates 
-dak %>% 
+divs = dak %>% 
   mutate(time = ifelse(time > 1.5e6, 1.5e6,time)) %>%  #add ceilingat 2M 
   ggplot(aes(y=time, x=AvZ,fill=Group))  + 
   stat_halfeye(adjust = .5,width = .25,.width = 0,justification = -1.5, point_colour = NA,alpha = 0.5,normalize='groups')+
   geom_boxplot(width = .5,outlier.shape = NA, alpha = 0.3) +
   ylab('Time')+xlab('')+
-  scale_y_continuous(limits = c(0,1.5e6),breaks = c(100000, 250000, 500000, 1000000, 1500000),
-                     labels = c("100K", "250K", "500K", "1M", "1.5M")) +
+  #scale_y_continuous(limits = c(0,1.5e6),breaks = c(100000, 250000, 500000, 1000000, 1500000),
+  #                   labels = c("100K", "250K", "500K", "1M", "1.5M")) +
   scale_fill_viridis(discrete=TRUE)+
   scale_color_viridis(discrete=TRUE)+
   theme_bw()+
   coord_flip()
 divs
 #pdf('../Divergence_Dating_250KB.pdf',height=6,width=7)
-png('../Divergence_Dating_50KB.png',units='in',res=600,height=6,width=7)
+png('../Divergence_Dating_50KB_2023JUNE12.png',units='in',res=600,height=6,width=7)
 divs
 dev.off()
-
-
