@@ -66,8 +66,8 @@ md = read.table('../EntireMetadata.txt',header=TRUE,sep='\t',comment.char = '')
 md = md %>% mutate(LatJit = jitter(Latitude,amount =1),
                    LonJit = jitter(Longitude,amount=1))
 #if you want a custom order, add a field with it
-ord = read.table('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/Chr_W_TreeWithMIC-NoChina-SetC_ROOT.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
-md = left_join(ord ,md %>% mutate(IDtree = gsub('307_CM_grey','307_CM_OUT',IDtree)))
+ord = read.table('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/trees/max-missing-05_SetC/Chr_W_TreeWithMIC-NoChina-MM05-SetC_ROOT.order',header=TRUE) %>% arrange(desc(TreeOrder)) %>% dplyr::rename(IDtree = ID)
+md = left_join(ord ,md)
 md = md %>% arrange(desc(TreeOrder))
 
 world <- map_data("world")
@@ -114,7 +114,7 @@ hsp = ggplot() +
 
 hsp
 
-pdf('Plumage_Spatial_HalloweenData_WithMIC-NoChina_SETC_1DEGREEJITTER.pdf',height=4,width=7)
+pdf('Spatial-Distribution_chr_W_SETC-MM05_1DEGREEJITTER.pdf',height=4,width=7)
 #png('Plumage_Spatial.png',units='in',res=600,height=5,width=9)
 hsp
 dev.off()
@@ -182,4 +182,5 @@ hsp
 pdf('Plumage_Spatial_NECHINA_0.5JITTER.pdf',height=2,width=3)
 hsp
 dev.off()
+
 
