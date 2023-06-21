@@ -1,2 +1,0 @@
-the input file is too large (2.5GB), please see zenodo link for the input data
-The input file Sensitivity_DXY.input   includes dxy and pi estimates for all pairwise comparisons, across window sizes (5kb 50kb 500kb) and across subsampled iterations (all samples, or n=5 repeated 10 times) 

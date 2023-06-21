@@ -12,55 +12,79 @@ library(ggpubr)
 library(RColorBrewer)
 library(gmodels)
 
+# Load data and rename the columns
 fst = read.table('Sensitivity_DXY.txt',header=TRUE)
 names(fst) = c('chr','start','end','mid','sites','piA','piB','dxy','Fst','Group','Iteration', 'Window','Mask')
-#drop NA dxy values, missing data for one clade
+
+# Remove rows that have missing values (NA) in 'dxy', 'piA', 'piB' columns
 fstd = fst %>% drop_na(dxy,piA,piB)
-#at this point, all NAs for FST are FST=0, since there is no diversity at that site
-nas = fstd %>% filter(is.na(Fst)) #check that's true
+
+# Replace missing values in the 'Fst' column with 0, as these indicate no diversity at the site
 fstd = fstd %>% replace_na(list(Fst=0))
-#add ceiling to fst since for plotting negative fst isn't sensible for plotting
+
+# Threshold 'Fst' values to be between 0 and 1
 fstd = fstd %>% mutate(Fst = threshold(Fst,min=0,max=1))
+
+# Split the 'Group' column into two separate columns 'GroupA' and 'GroupB' based on underscore
 fs = fstd %>%
-  separate(Group,into=c('GroupA','GroupB'),remove=FALSE,sep='_') 
-#Our method of population assignment is alphabetical order, not our explicit group ID, hence sort the group ID alphabetically and ensure it aligns with the raw output fields 
+  separate(Group,into=c('GroupA','GroupB'),remove=FALSE,sep='_')
+
+# Sort the groups alphabetically and join them back with underscore
 fs1 = fs %>%  rowwise() %>% mutate(pair = sort(c(GroupA,GroupB)) %>% paste(collapse = "_"))
-fs2 = fs1 %>% select(!c(GroupA,GroupB,Group)) %>% dplyr::rename(Group = pair) %>% separate(Group,into=c('GroupA','GroupB'),remove=FALSE,sep='_') 
-#add AvZ
-d1 = fs2 %>% 
+
+# Drop the old 'GroupA' and 'GroupB' columns and rename the 'pair' column to 'Group', then split the 'Group' column again
+fs2 = fs1 %>% select(!c(GroupA,GroupB,Group)) %>% dplyr::rename(Group = pair) %>% separate(Group,into=c('GroupA','GroupB'),remove=FALSE,sep='_')
+
+# Add a new column 'AvZ' to classify chromosomes into 'W', 'Z', 'MT' and 'Autosome'
+d1 = fs2 %>%
   mutate(AvZ = ifelse(chr == 'chr_W','W',ifelse(chr == 'chr_Z','Z',ifelse(chr == 'chr_MT','MT','Autosome'))))
-#only chrZ / W are masked, so dropped the non-masked versions and then fix the names
+
+# Exclude non-masked versions of 'chr_Z' and 'chr_W' from the data
 d2 = d1 %>% filter(!((chr == "chr_Z" | chr == "chr_W") & (Mask == "Subset" | Mask == "All")))
+
+# Clean up the 'Mask' column values
 d3 = d2 %>% mutate(Mask = gsub('SubsetMask','Subset',Mask),
                    Mask = gsub('AllMask','All',Mask))
-#and since the 'All' subset was repeated for all iterations, we actually only need 1 iteration
-d4 = d3 %>% filter(!(Mask == "All" & Iteration != "1"))
-d4 %>% group_by(Mask,Iteration,Window) %>% count() %>% data.frame
-write.table(d4,file='Sensitivity_DXY.input',quote=F,sep='\t',row.names=F)
-d4 = read.table('Sensitivity_DXY.input',header=TRUE) #or start here 
 
-### plot overall diversity
+# Retain only one iteration for the 'All' mask
+d4 = d3 %>% filter(!(Mask == "All" & Iteration != "1"))
+
+# Write out the cleaned and manipulated data to a new file
+write.table(d4,file='Sensitivity_DXY.input',quote=F,sep='\t',row.names=F)
+
+# Read back the cleaned data
+d4 = read.table('Sensitivity_DXY.input',header=TRUE)
+
+# Reorder the levels of 'Group' factor
 d4$Group = factor(d4$Group,levels=c('HG_HH','CG_CH','OG_OH','CG_OG','CH_OH'))
-data = d4 %>% select(Group,Iteration,Window,Mask,AvZ,dxy,Fst) %>% 
-  pivot_longer(!c(Group,Iteration,Window,Mask,AvZ)) %>% 
-  group_by(Group,Iteration,Window,Mask,AvZ,name) %>% 
+
+# Calculate mean, lower and upper confidence intervals for 'Fst' and 'dxy'
+data = d4 %>% select(Group,Iteration,Window,Mask,AvZ,dxy,Fst) %>%
+  pivot_longer(!c(Group,Iteration,Window,Mask,AvZ)) %>%
+  group_by(Group,Iteration,Window,Mask,AvZ,name) %>%
   summarize(mean = ci(value)[1],
             lo = ci(value)[2],
             hi = ci(value)[3])
-fstsen = data %>% filter(name == 'Fst') %>% 
+
+# Generate plot for 'Fst'
+fstsen = data %>% filter(name == 'Fst') %>%
   ggplot(aes(x=AvZ,y=mean,ymin=lo,ymax=hi,col=Group))+
   geom_point(position=position_dodge(width=0.5))+
   geom_errorbar(position=position_dodge(width=0.5))+
   scale_color_viridis(discrete=TRUE,option='turbo')+
   facet_grid(Window~Mask,scales='free')+ggtitle('FST')+
   theme_bw()
-dxysen = data %>% filter(name == 'dxy') %>% 
+
+# Generate plot for 'dxy'
+dxysen = data %>% filter(name == 'dxy') %>%
   ggplot(aes(x=AvZ,y=mean,ymin=lo,ymax=hi,col=Group))+
   geom_point(position=position_dodge(width=0.5))+
   geom_errorbar(position=position_dodge(width=0.5))+
   scale_color_viridis(discrete=TRUE,option='turbo')+
   facet_grid(Window~Mask,scales='free')+ggtitle('DXY')+
   theme_bw()
+
+# Save the plots into a pdf file
 pdf('../Sensitivity_Window-FST-DXY.pdf',height=8,width=6)
 ggarrange(fstsen,dxysen,common.legend = TRUE,nrow=2,ncol=1)
 dev.off()
@@ -95,17 +119,20 @@ pdf('../Sensitivity_Window-FST-DXY_heatmap.pdf',height=12,width=10)
 ggarrange(dxy5000,Fst5000,dxy50000,Fst50000,dxy500000,Fst500000,nrow=3,ncol=2)
 dev.off()
 
-#set up genome
+# Set up genome
 genome <- read.table('/dss/dsslegfs01/pr53da/pr53da-dss-0021/assemblies/Cuculus.canorus/VGP.bCucCan1.pri/GCA_017976375.1_bCucCan1.pri_genomic.CHR.fa.bed',header=FALSE) %>% filter(str_detect(V1,'scaff|MT',negate=T)) %>% arrange(desc(V2))
 names(genome) <- c('chr','start','end')
 genome$chr <- gsub('chr_','',genome$chr)
+
+# Only chromosomes > 2mb 
 genome = subset(genome,end > 2000000)
 cuckooG <- makeGRangesFromDataFrame(genome,seqnames.field = 'chr',start.field = 'start',end.field = 'end')
-#add mtDNA for Z/W/MT
+
+# For sex chromosome-only view make mtDNA larger for visualization 
 wgenome = rbind(genome %>% filter(chr == 'W' | chr == 'Z'),data.frame(chr = 'MT',start=-2000000,end=20000))
 WG = makeGRangesFromDataFrame(wgenome,seqnames.field = 'chr',start.field = 'start',end.field = 'end')
 
-#for staggered chr names
+# Stagger chromosome names 
 evens <- ((1:length(genome$chr))%%2)==0
 chr.names <- genome$chr
 even.names <- chr.names
@@ -117,6 +144,7 @@ odd.names = gsub('29','',odd.names) #micros are too busy, remove
 odd.names = gsub('29','',odd.names) #micros are too busy, remove 
 odd.names = gsub('25','',odd.names) #micros are too busy, remove 
 
+# Only plot 50kb and all samples 
 divs = d4 %>% filter(Window == 50000 & Mask == 'All') %>% mutate(chr = gsub('chr_','',chr))
 
 #subset each raw dataset into specific colors
@@ -128,11 +156,12 @@ div_gb2 <- divs[grepl(paste(gb2, collapse="$|"), divs$chr), ]
 div_gb2$Color <- "grey10"
 divs_use <- rbind(div_gb1,div_gb2)
 
-
+# Define the variable to examine 
 var = 'dxy'
 #pdf('../Karyoplot_Legend.pdf',height=5,width=9)
 #pdf('../DXY_Genome-wide.pdf',height=5,width=9)
-#for whole genome
+
+# Use this section for whole genome
 pp <- getDefaultPlotParams(plot.type=4)
 pp$leftmargin <- 0.1
 png(paste0('../',var,'_Genome-wide_50kb.png'),units='in',res=600,height=5,width=9)
@@ -140,14 +169,15 @@ kp <- plotKaryotype(plot.type=4, genome = cuckooG,plot.params = pp,labels.plotte
 kpAddChromosomeNames(kp, chr.names = odd.names,cex=0.8)
 kpAddBaseNumbers(kp,tick.dist = 25000000,cex=0.4)
 
-#for W
+# Use this section for sex chromosomes 
 # png(paste0('../',var,'_Sex_50kb.png'),units='in',res=600,height=5,width=9)
 # kp <- plotKaryotype(plot.type=4, genome = WG)
 # kpAddBaseNumbers(kp,tick.dist = 25000000,cex=0.4)
 counter = 0 
 tracks = 5
 
-vars =c('HG_HH','CG_CH','OG_OH','CG_OG','CH_OH')
+# Loop through all the groups, plot the variable indicated above, add 1 to the counter so it gets added to the next panel 
+vars = c('HG_HH','CG_CH','OG_OH','CG_OG','CH_OH')
 for (varz in vars) {
   if (var == 'dxy') {
     cat('Working with dxy: ',varz,'\n')
@@ -169,12 +199,16 @@ for (varz in vars) {
   cat('Current Autotrack: ',counter,' for ',varz,'\n')
   at <- autotrack(current.track = counter, total.tracks = tracks);
   at$r1 <- at$r1-0.03
+
   #add lines at 0,1 and 0.5
   kpAbline(kp,h=c(0,1),lty=1,r0=at$r0,r1=at$r1,cex=0.6,col='grey60')
   kpAbline(kp,h=0.5,lty=2,r0=at$r0,r1=at$r1,cex=0.6,col='grey60')
+
   #add points 
   kpPoints(kp,chr=dat$chr,x=dat$start,y=dat$value,ymin=lower,ymax=upper,r0=at$r0,r1=at$r1,col=dat$Color)
   #kpLines(kp,chr=dat$chr,x=dat$start,y=dat$dxy,ymin=min(dat$dxy),ymax=max(dat$dxy),r0=at$r0,r1=at$r1,alpha=0.5,col=dat$Color)
+
+  # Add labels
   kpAxis(kp,ymin=lower,ymax=upper,r0=at$r0,r1=at$r1,cex=0.6)
   kpAddLabels(kp,cex=0.8,labels = varz,r0=at$r0+.01, r1=at$r1,col="black",srt=0,label.margin = 0.05)
 }

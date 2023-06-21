@@ -17,39 +17,55 @@ mkdir vcfqc snp allsites phased lostruct lostruct/input
 CHR=$1
 echo "${CHR} PLUMAGE"
 
-#standard filtering
+# Perform initial variant calling filtering
+
+# Display status message
 echo "FILTER VCF"
+
+# Use bcftools to perform sample-wise filtering on the vcf file. 
+# The resulting vcf will only contain samples listed in the AllSamples.list file.
 bcftools view --force-samples --samples-file AllSamples.list -Oz ../../merged/${CHR}.vcf.gz -o snp/${CHR}.vcf.gz
+
+# Index the vcf file for faster access
 bcftools index --threads 10  snp/${CHR}.vcf.gz
 
+# Calculate some statistics for the next round of filtering
+# Count the number of samples in the vcf file
 SAMPN=$(bcftools query -l snp/${CHR}.vcf.gz | wc -l)
+
+# Compute the median coverage depth across all sites in the vcf file
 AVGDP=$(bcftools query -f '%DP\n' snp/${CHR}.vcf.gz | datamash median 1 | datamash round 1)
+
+# Calculate thresholds for filtering based on depth of coverage
 DPLOW=$(($AVGDP/3))
 DPHI=$(($AVGDP*2))
+
+# Perform a second round of filtering based on various quality metrics
 bcftools view --types snps --threads 10 -e "QUAL < 20 || INFO/DP > $DPHI || INFO/DP < $SAMPN || MQ < 30 || RPBZ < -3 || RPBZ > 3" -Oz -o snp/${CHR}.IF.vcf.gz snp/${CHR}.vcf.gz
 bcftools index --threads 10 snp/${CHR}.IF.vcf.gz
 
-#and perform genotype filtering
+# Determine the minimum depth of coverage based on the type of chromosome
 if [[ $CHR = 'chr_W' || $CHR == 'chr_Z' ]]
 then
-        MINDP=2 #retain only 3x and above sex chrom
+    MINDP=2 # Lower depth for sex chromosomes
 else
-        MINDP=4  #retain only 5x and above autos/MT
+    MINDP=4  # Higher depth for autosomes and mitochondria
 fi
 
-#for W and MT, set allele imbalance violations to missing too
+# Different processing steps for sex chromosomes and mitochondria versus autosomes
 if [[ $CHR = 'chr_W' || $CHR == 'chr_MT' || $CHR == 'chr_Z' ]]
 then
-                echo "HAPLOID, SETTING HETEROZYGOUS SITES TO MISSING"
-        bcftools +setGT -Ou -o - snp/${CHR}.IF.vcf.gz -- -t q -i "FMT/DP < ${MINDP}" -n "./." | \
-                bcftools +setGT -Ou -- -t "b:AD<1e-5" -n "./." | \
-                bcftools +setGT -Oz -o snp/${CHR}.IF-GF.vcf.gz -- --target-gt q --new-gt M -i 'GT=="het"'
-        bcftools index --threads 10 snp/${CHR}.IF-GF.vcf.gz
+    # For haploid chromosomes, convert low-coverage and heterozygous sites to missing
+    echo "HAPLOID, SETTING HETEROZYGOUS SITES TO MISSING"
+    bcftools +setGT -Ou -o - snp/${CHR}.IF.vcf.gz -- -t q -i "FMT/DP < ${MINDP}" -n "./." | \
+    bcftools +setGT -Ou -- -t "b:AD<1e-5" -n "./." | \
+    bcftools +setGT -Oz -o snp/${CHR}.IF-GF.vcf.gz -- --target-gt q --new-gt M -i 'GT=="het"'
+    bcftools index --threads 10 snp/${CHR}.IF-GF.vcf.gz
 else
-        #set uncertain genotypes to 0
-        echo "DIPLOID, SETTING LOW COVERAGE TO MISSING"
-        bcftools +setGT -Oz -o snp/${CHR}.IF-GF.vcf.gz snp/${CHR}.IF.vcf.gz -- -t q -i "FMT/DP < ${MINDP}" -n "./."
-        bcftools index --threads 10 snp/${CHR}.IF-GF.vcf.gz
+    # For diploid chromosomes, convert low-coverage sites to missing
+    echo "DIPLOID, SETTING LOW COVERAGE TO MISSING"
+    bcftools +setGT -Oz -o snp/${CHR}.IF-GF.vcf.gz snp/${CHR}.IF.vcf.gz -- -t q -i "FMT/DP < ${MINDP}" -n "./."
+    bcftools index --threads 10 snp/${CHR}.IF-GF.vcf.gz
 fi
 
 #FORMAT SNP summary stats

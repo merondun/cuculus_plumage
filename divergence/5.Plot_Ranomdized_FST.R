@@ -12,17 +12,21 @@ library(purrr)
 library(ggpubr)
 library(gmodels)
 
+# Read in randomized data
 fst = read.table('Randomized_Fst.dxy',header=TRUE)
 names(fst) = c('chr','start','end','mid','sites','piA','piB','dxy','Fst','Group')
-#drop NA dxy values, missing data for one clade
+
+# Drop NA dxy values, missing data for one clade
 fstd = fst %>% drop_na(dxy,piA,piB)
-#at this point, all NAs for FST are FST=0, since there is no diversity at that site
+
+# At this point, all NAs for FST are FST=0, since there is no diversity at that site
 nas = fstd %>% filter(is.na(Fst)) #check that's true
 fstd = fstd %>% replace_na(list(Fst=0))
-#add ceiling to fst since for plotting negative fst isn't sensible for plotting
+
+# Add ceiling to fst since for plotting negative fst isn't sensible for plotting
 fstd = fstd %>% mutate(Fst = threshold(Fst,min=0,max=1))
 
-#analyze via stats
+# Summarize by different replicate / randomization techniques
 fs = fstd %>% select(chr,Fst,Group) %>% as_tibble
 fs$Fst = as.numeric(fs$Fst)
 fs$chr = gsub('chr_','',fs$chr)
@@ -37,7 +41,7 @@ fsx = fs %>% group_by(chr,Group,NumberSubsampled,Replicate,Treatment) %>%
             lwr = ci(Fst)[2],
             upr = ci(Fst)[3])
 
-#plot subsampled first by itself
+# Plot subsampled first by itself
 fss = fsx %>% filter(grepl('Seque|Color',Treatment)) %>% mutate_at('NumberSubsampled',as.numeric) %>% replace_na(list(NumberSubsampled = 0))
 fsp = fss %>% ggplot(aes(x=NumberSubsampled,y=m,ymin=lwr,ymax=upr,col=Replicate,group=Group))+
   geom_point(stroke=1,shape=16,size=2,position=position_dodge(width=0.5)) +
@@ -47,7 +51,7 @@ fsp = fss %>% ggplot(aes(x=NumberSubsampled,y=m,ymin=lwr,ymax=upr,col=Replicate,
   theme_bw()
 fsp
 
-#plot both the full n = 20 comparison 
+# Plot both the full n = 20 comparison 
 fsr = fsx %>% filter(grepl('Full|Color',Treatment))
 frp = fsr %>% ggplot(aes(x=chr,y=m,ymin=lwr,ymax=upr,col=Replicate,group=Group))+
   geom_point(stroke=1,shape=16,size=2,position=position_dodge(width=0.5)) +
@@ -57,7 +61,7 @@ frp = fsr %>% ggplot(aes(x=chr,y=m,ymin=lwr,ymax=upr,col=Replicate,group=Group))
   theme_bw()
 frp
 
-#plot both the full n = 20 comparison and the n = 5 for both groups 
+# Plot both the full n = 20 comparison and the n = 5 for both groups 
 fsv = fsx %>% filter(grepl('Sub|Color',Treatment))
 fvp = fsv %>% ggplot(aes(x=chr,y=m,ymin=lwr,ymax=upr,col=Replicate,group=Group))+
   geom_point(stroke=1,shape=16,size=2,position=position_dodge(width=0.5)) +
@@ -67,6 +71,7 @@ fvp = fsv %>% ggplot(aes(x=chr,y=m,ymin=lwr,ymax=upr,col=Replicate,group=Group))
   theme_bw()
 fvp
 
+# Arrange all the plots
 ggarrange(fsp,frp,fvp,common.legend=TRUE,nrow=3,ncol=1)
 pdf('FST_Sensitivity_WChromosome_2023JUNE14.pdf',height=7,width=5)
 ggarrange(fsp,frp,common.legend=TRUE,nrow=2,ncol=1)

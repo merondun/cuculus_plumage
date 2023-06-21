@@ -1,8 +1,0 @@
-#vcf files for chrW data. The ML-tree from this vcf was created using the scripts found in the /trees/ directory (vcf2phylip followed by iqtree)
-
-chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetC.vcf.gz
-#The naming structure from the above file is: $CHROMOSOME . INFO-FILTERED . GENOTYPE-FILTERED . MAX-MISSING 20% . NO SNPs within 5BP OF ONE ANOTHER . ANNOTATED [snpeff] . HAPLOIDIZED [bcftools] . MASKED [removing sites that overlap the sex-chromosome mask which identified male : female coverage discrepancies] __ SAMPLE SET (either B, a subset which includes higher quality individuals, or C, the full dataset with toepad samples)
-#For more details on the specific filtering for INFO/GENO/FORMAT fields, see the /general/ directory
-
-#There is also a file which indicates the positions covered. The 1-based VCF was converted to 0-based bed simply with awk as follows. Both .vcf.gz files have the same sites: 
-bcftools query -f "%CHROM\t%POS\t%POS\n" chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetB.vcf.gz | awk '{OFS="\t"}{print $1, $2-1, $3}' > chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetB.positions.bed 

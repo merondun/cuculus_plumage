@@ -8,6 +8,6 @@
 #SBATCH --cpus-per-task=30
 #SBATCH --time=72:00:00
 
-#LD pruned set
+# Merge VCFs found in Autosomes.list 
 bcftools concat --file-list Autosomes.list --threads 10 -Oz -o autosomes/Autosomes.IF-GF-MM2-BP-ANN-AC2.vcf.gz
 bcftools index --threads 10 autosomes/Autosomes.IF-GF-MM2-BP-ANN-AC2.vcf.gz
