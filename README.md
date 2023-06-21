@@ -6,10 +6,6 @@ This project aims to investigate the evolutionary genomics behind plumage polymo
 
 The repository is organized as follows:
 
-- **README**: This file, containing an overview of the project and the contents of our repository.
-
-- **LICENSE**: The license for this project's materials.
-
 - **pca**: Principal component analyses files and results.
 
 - **final_figures**: Finalized figures for the manuscript or presentations.
