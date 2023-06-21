@@ -1,0 +1,2 @@
+R script which will import the vec and val files, set the RUN to the prefix
+there are 4 val and vec files corresponding to autosome and W chromosome SNP sets, one with LD pruning

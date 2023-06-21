@@ -1,1 +1,11 @@
 iqtree2 consensus trees with SHaLRT and bootstrap support values for nodes. theres scripts for plotting the ML trees and for plotting mtDNA and W chromosome together
+
+Directory Structure
+
+    max-missing-05_SetB: This directory contains genetic data for Set B, allowing a maximum missing genotype rate of 5%. This means that up to 5% of the genotype data for each sample in Set B can be missing.
+
+    max-missing-05_SetC: Similar to the above, this directory contains data for Set C with a maximum missing genotype rate of 5%.
+
+    max-missing-20_SetC: This directory contains data for Set C with a higher tolerance for missing data. Here, up to 20% of the genotype data for each sample in Set C can be missing.
+
+    max-missing-20_SetB: Lastly, this directory contains data for Set B with a maximum missing genotype rate of 20%.
