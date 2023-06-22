@@ -1,19 +1,33 @@
 library(vcfR)
 library(tidyverse)
 library(viridis)
+
+
+# Specify the VCF file location
 vcf_file <- "~/merondun/cuculus_plumage/divergence/Fixed_Grey-Rufous.vcf"
+
+# Load VCF data into an object
 vcf <- read.vcfR(vcf_file)
-#extract the genotypes
+
+# Extract the genotypes from the VCF file
 gt_data <- vcfR2tidy(vcf, format_fields = 'GT' )
 gt = gt_data$gt
-#remember vcfs are 1-based
+
+# Rename cols
 names(gt) = c('Key','site','ID','Genotype','Allele')
-#add metadata since I want to group by morph
+
+# Load metadata, as we want to group by morph
 md = read.table('~/merondun/cuculus_plumage/SimpleMetadata.txt',header=TRUE,comment.char = '',sep='\t')
+
+# Join the metadata and genotype data
 gt = left_join(md,gt) #ensure that the 'ID' from the vcf matches the 'ID' from your metadata
+
+# Convert the 'Group' column to a factor ans specicyf the levels the you want
 gt$Group = factor(gt$Group,levels=c('CG','OG','CH','OH'))
-gtp = gt %>% filter(Allele != '.' & 
-                      site < 2000000) %>%  #to reduce the number of SNPs for visualization..
+
+# Create a plot of genotypes across individuals and morphs
+gtp = gt %>% filter(Allele != '.' &
+                      site < 2000000) %>%  # to reduce the number of SNPs for visualization..
   ggplot(aes(x = IDtree, y = as.factor(site), fill = Allele)) +
   geom_tile() +
   xlab("Individuals") +
