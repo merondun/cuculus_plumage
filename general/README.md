@@ -10,9 +10,9 @@ This repository contains scripts and files used for general processing of the da
 - `2.Chromosome_Merging.sh`: This script merges chromosome-wide SNPs.
 - `3.SNP_INFO_filtering.sh`: This script applies filtering to the SNPs based on information from INFO field in the VCF.
 - `4.SNP_FORMAT_filtering.sh`: This script applies further filtering to the SNPs based on genotype format fields in the VCF.
-- `5.Merge_Autosomes.sh`: This script is used to merge the SNP calls from individual autosomes.
-- `6.Plink_PCA-PrepAdmixture.sh`: This script prepares data for PCA and Admixture analysis using plink.
-- `7.SNP_Summaries.R`: This script generates summary statistics for SNPs.
+- `5.Plink_PCA-PrepAdmixture.sh`: This script prepares data for PCA and Admixture analysis using plink.
+- `6.SNP_Summaries.R`: This script generates summary statistics for SNPs.
+- `7.IdentifyNuMTS.sh`: This script scans the cuckoo genome for mtDNA, using the full mtDNA as the query target. 
 
 ## Other Files
 
