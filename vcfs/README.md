@@ -22,7 +22,10 @@ Following the same structure as above, this file contains data for **Sample Set 
 
 ### 3. `chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetB.positions.bed`
 
-This bed file signifies the positions covered in the VCF file. The 1-based VCF coordinates were converted to 0-based bed coordinates using:
+This bed file signifies the positions covered in the VCF. The 1-based VCF coordinates were converted to 0-based bed coordinates using:
 
 `bcftools query -f "%CHROM\t%POS\t%POS\n" chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetB.vcf.gz | awk '{OFS="\t"}{print $1, $2-1, $3}' > chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetB.positions.bed`
 
+### 4. `Autosomes.IF-GF-MM2-BP-ANN-AC2.positions.bed.gz`
+
+Similar to 3 but shows the autosomal positions. This file EXCLUDES SINGLETONS! The 1-based VCF coordinates were converted to 0-based bed coordinates using:
