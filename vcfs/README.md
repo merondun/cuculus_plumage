@@ -16,6 +16,8 @@ This VCF file holds chrW chromosome data for **Set B**, and its naming structure
 - **HAPMASK**: Haploidized using `bcftools` and masked to remove sites overlapping the sex-chromosome mask, which identifies male to female coverage discrepancies
 - **SetB**: Denotes Sample Set B, comprising higher quality individuals. 
 
+Please NOTE: these files likely include monomorphic sites as heterozygous sites were set to missing, which would then modify the total allele count. Please add --min-ac 1 for any analyses which require SNPs only. 
+
 ### 2. `chr_W.IF-GF-MM2-BP-ANN-HAPMASK__SetC.vcf.gz`
 
 Following the same structure as above, this file contains data for **Sample Set C**, which includes the complete dataset with toepad samples.
