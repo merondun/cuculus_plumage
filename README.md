@@ -26,6 +26,8 @@ The repository is organized as follows:
 
 - **bsp**: Files and results related to Bayesian Skyline Plot (BSP) analyses.
 
+- **ld**: Scripts for calculating LD between chrW and autosomal SNPs. 
+
 ## Contact
 
 For any questions or concerns, please open an issue on this repository or reach out to Justin Merondun: heritabilities@gmail.com
