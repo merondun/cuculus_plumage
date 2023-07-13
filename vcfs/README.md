@@ -31,3 +31,7 @@ This bed file signifies the positions covered in the VCF. The 1-based VCF coordi
 ### 4. `Autosomes.IF-GF-MM2-BP-ANN-AC2.positions.bed.gz`
 
 Similar to 3 but shows the autosomal positions. This file EXCLUDES SINGLETONS! The 1-based VCF coordinates were converted to 0-based bed coordinates using:
+
+### 5. `chr_Z.IF-GF-MM2-BP-ANN-HAPMASK.positions.bed.gz` 
+
+Similar to 4 but shows chrZ positions. Naming pattern same as above. 
