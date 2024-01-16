@@ -4,9 +4,7 @@ library(tidyverse)
 library(viridis)
 
 #First, read in q matrices 
-#RUN='Autosomes.IF-GF-MM2-BP-ANN-AC2-LD.HUNGARY'
-RUN='Autosomes.IF-GF-MM2-BP-ANN-AC2.SETC-P50.10.1-LD'
-RUN='Autosomes.IF-GF-MM05-BP-ANN-AC2.SETC-P50.10.1-LD'
+RUN='Autosomes.IF-GF-MM2-BP-ANN-AC2.TransSpecies'
 qs = list.files('.',paste0(RUN,'.*.Q$')) #find all files ending in .Q
 famfile = paste0('../autosomes/',RUN,'.fam') #specify the .fam file 
 samps = read.table(famfile,header=FALSE) %>% select(V2) %>% dplyr::rename(ID=V2) %>% 
@@ -27,17 +25,18 @@ for (q in qs){
 md = read.table('../EntireMetadata.txt',header=TRUE,comment.char = '',sep='\t')
 qdat = left_join(qdat,md) %>% mutate(IDtree = paste0(IDNumber,'_',Species,'_',Plumage))
 #save to github for plotting 
-write.table(qdat,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/admixture/Qcoefficients_WithMIC-SetC_MM05-LD50.10.1.txt')
+write.table(qdat,file='/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/admixture/Qcoefficients.txt')
 
 ####Skip to hear if starting from github
 setwd('/dss/dsshome1/lxc07/di39dux/merondun/cuculus_plumage/admixture/')
-qdat = read.table('Qcoefficients_WithMIC-SetC_MM2-LD50.10.1.txt',header=TRUE)
+qdat = read.table('Qcoefficients.txt',header=TRUE)
 #I have a specified order already since I want to align samples in the same order as a phylogenetic tree, this is just a vector of IDs 
-ord = read.table('../trees/Chr_W_TreeWithMIC-SetB_ROOT.order',header=TRUE)
-qdat = left_join(ord %>% dplyr::rename(IDtree = ID),qdat)
+ord = read.table('../trees/max-missing-20_SetB/Chr_W_TreeWithMIC-SetB_ROOT.order',header=TRUE)
+qdat = left_join(ord %>% dplyr::rename(IDtree = ID),qdat) %>% drop_na(Q)
+qdat$IDtree = factor(qdat$IDtree,levels=ord$ID)
 
 #without order
-qdat = qdat %>% mutate(IDtree = fct_reorder(ID,desc(Plumage)))
+#qdat = qdat %>% mutate(IDtree = fct_reorder(ID,desc(Plumage)))
 
 #Prep
 qdat = qdat %>% mutate(Kclust = paste0('K',MaxK))
@@ -64,7 +63,7 @@ kvar = ggplot() +
   theme_bw()+xlab('Maximum Observed Ancestry Coefficient (Q)')+
   theme(legend.position='top')
 
-png('Admixture_WithMIC-SetC_MM2-LD50.10.1-K10-Discrepancies.png',height=8,width=7,units='in',res=600)
+png('Admixture_WithMIC-SetC_MM2-KInterspecies.png',height=8,width=7,units='in',res=600)
 kvar
 dev.off()
 
@@ -89,9 +88,29 @@ k2plot =
     legend.position='top')
 k2plot
 
-#pdf('Admixture_WithMIC-SetC_MM2-LD50.10.1-K10-Facet.pdf',height=4,width=8)
-png('Admixture_WithMIC-SetC_MM2-LD50.10.1-K10-Facet.png',height=6,width=8,units='in',res=600)
+png('Admixture_TransSpecies-K10-Facet.png',height=6,width=8,units='in',res=600)
 k2plot
 dev.off()
 
+#Now plot main figure 
+fig3b =
+  qdat %>% filter(MaxK < 6) %>%  #I only want to show K2-4
+  ggplot(aes(x = factor(IDtree), y = Q, fill = factor(K))) +
+  geom_col(color = "gray", size = 0.1) +
+  facet_grid(Kclust~., switch = "x", scales = "free", space = "free") +
+  theme_minimal() + labs(x = "",y = "Ancestry Coefficient") +
+  scale_y_continuous(n.breaks = 3) +
+  scale_fill_viridis('K',discrete=TRUE)+ 
+  scale_x_discrete(expand = expand_scale(add = 1)) +
+  theme(
+    panel.spacing.x = unit(0.1, "lines"),
+    #axis.text.x = element_blank(),
+    axis.text.x = element_text(size=5,angle=90,vjust=0,hjust=0),
+    panel.grid = element_blank(),
+    strip.text = element_text(size = 5),
+    legend.position='top')
+fig3b
 
+pdf('Admixture_TransSpecies-K6.pdf',height=3,width=6)
+fig3b
+dev.off()

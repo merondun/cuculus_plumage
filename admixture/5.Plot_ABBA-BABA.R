@@ -55,23 +55,24 @@ for (group in groups){
   }
 }
 
-write.table(res,file='Jackknife_Dstatistics_2023JUNE26.txt',quote=F,sep='\t',row.names=F)
+write.table(res,file='~/merondun/cuculus_plumage/admixture/Jackknife_Dstatistics_2024JAN12.txt',quote=F,sep='\t',row.names=F)
+res = read.table('~/merondun/cuculus_plumage/admixture/Jackknife_Dstatistics_2024JAN12.txt',header=TRUE)
 
-res = read.table('Jackknife_Dstatistics_2023JUNE26.txt',header=TRUE)
 ap = res %>% 
-  #filter(AvZ != 'W') %>% 
+  filter(AvZ == 'Autosome') %>% 
   ggplot(aes(x=AvZ,y=Djack.mean,ymin=Djack.mean-Djack.standard_deviation,
-                        ymax=Djack.mean+Djack.standard_deviation,
-                        col=Group,label=paste0(signif(Djack.mean,3),'\n (Z = ',signif(Z,3),')')))+
+             ymax=Djack.mean+Djack.standard_deviation,
+             col=Group,label=paste0(signif(Djack.mean,3),'\n (Z = ',signif(Z,3),')')))+
   geom_point(position=position_dodge(width=0.75))+
-  geom_text(aes(y=Djack.mean+Djack.standard_deviation + 0.06),position=position_dodge(width=0.75),size=1.75)+
+  geom_text(aes(y=Djack.mean+Djack.standard_deviation + 0.06),position=position_dodge(width=0.75),size=4)+
   geom_errorbar(width=0.25,position=position_dodge(width=0.75))+
   xlab('')+ylab('D-Statistic')+
-  scale_color_manual(guide = 'none',values=c('#000000','#e78f41'))+
+  scale_color_manual(values=c('black','orange'))+
   geom_hline(yintercept=0,lty=2)+
   theme_bw()
+ap
 
-pdf('Dstatistics_2023JUNE26.pdf',height=5,width=4)
+pdf('~/merondun/cuculus_plumage/admixture/Dstatistics_2024JAN12.pdf',height=3,width=2.5)
 ap
 dev.off()
 
